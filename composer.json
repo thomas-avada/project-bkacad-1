@@ -5,7 +5,6 @@
         }
 	},
 	"require": {
-		"clancats/hydrahon": "^1.1",
-		"envms/fluentpdo": "^2.1"
+		"clancats/hydrahon": "^1.1"
 	}
 }

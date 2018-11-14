@@ -2,16 +2,16 @@
 
 namespace App\Controllers;
 
-use App\Core\App;
+use App\Core\Container;
 
 class PageController
 {
 	public function home()
 	{
 
-		$products = App::resolve('QueryBuilder')->selectAll('products');
+		// $products = Container::resolve('QueryBuilder')->selectAll('products');
 
-		return view('index', compact('products'));
+		// return view('index', compact('products'));
 	}
 
 	public function service()

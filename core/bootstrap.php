@@ -14,9 +14,5 @@ Container::bind('QueryBuilder', (new QueryBuilder(
 
 Container::bind('Request', new Request());
 
-function view ($view, $data = [])
-{
-	extract($data);
-	require_once "views/".$view.".view.php";
-}
+require_once "helper/helpers.php";
 

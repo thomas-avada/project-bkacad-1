@@ -4,6 +4,10 @@ namespace App\Controllers;
 
 class TestController
 {
+    public function index()
+    {
+        return view('test/index');
+    }
     public function test()
     {
         session_start();

@@ -10,7 +10,7 @@ if(!function_exists('view')){
     function view ($view, $data = [])
     {
         extract($data);
-        require_once "views/".$view.".view.php";
+        require_once "resources/views/".$view.".view.php";
     }
 }
 

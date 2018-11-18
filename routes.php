@@ -10,7 +10,9 @@ $router->get([
 	'posts' => 'PostController@index',
 	'some' => 'SomeController@index',
 	'products' => 'ProductController@index',
-    'test' => 'TestController@test'
+    'test' => 'TestController@test',
+    'test/index' => 'TestController@index',
+    'store' => 'StoreController@index'
 ]);
 
 $router->post([

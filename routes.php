@@ -9,10 +9,12 @@ $router->get([
 	'form' => 'FormController@create',
 	'posts' => 'PostController@index',
 	'some' => 'SomeController@index',
-	'products' => 'ProductController@index'
+	'products' => 'ProductController@index',
+    'test' => 'TestController@test'
 ]);
 
 $router->post([
-	'send' => 'controllers/formHandlerController.php'
+	'send' => 'controllers/formHandlerController.php',
+    'test/testpost' => 'TestController@testpost'
 ]);
 

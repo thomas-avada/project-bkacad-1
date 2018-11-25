@@ -3,7 +3,9 @@ namespace App\Model;
 
 use App\Core\Database\Facade\Model;
 
-class Product extends Model{
+class Product extends Model
+{
+	protected static $tablename = 'products';
 
     public static function getFive()
     {

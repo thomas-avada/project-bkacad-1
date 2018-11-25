@@ -26,4 +26,9 @@ class Redirect
     {
         $this->to($this->_request->getHttpReferer());
     }
+
+    public function home()
+    {
+        $this->toRoute();
+    }
 }

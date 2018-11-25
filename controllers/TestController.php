@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Core\Facade\Session;
+
 class TestController
 {
     public function index()
@@ -10,9 +12,7 @@ class TestController
     }
     public function test()
     {
-        session_start();
-        echo
-        var_dump($_SESSION);
+        var_dump(Session::all());
         die();
         return view('test/form');
     }

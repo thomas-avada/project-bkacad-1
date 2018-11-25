@@ -44,11 +44,11 @@ class Request
 
     public function getHttpOrigin()
     {
-        return isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_HOST'] : '';
+        return isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
     }
 
     public function getHttpReferer()
     {
-        return isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_HOST'] : '';
+        return isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
     }
 }

@@ -4,9 +4,9 @@ return [
 	'database' => [
 		'driver' => 'mysql',
 		'host' => 'localhost',
-		'dbname' => 'electro-ecommerce',
-		'login' => 'admin',
-		'password' => 'tuananhnd99',
+		'dbname' => 'bkacad_ecommerce',
+		'login' => 'root',
+		'password' => '',
 		'options' => [
 			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
 		]

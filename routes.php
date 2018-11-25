@@ -4,19 +4,14 @@
 
 $router->get([
 	'' => 'PageController@home',
-	'about' => 'PageController@about',
-	'service' => 'PageController@service',
-	'form' => 'FormController@create',
-	'posts' => 'PostController@index',
-	'some' => 'SomeController@index',
-	'products' => 'ProductController@index',
-    'test' => 'TestController@test',
-    'test/index' => 'TestController@index',
-    'store' => 'StoreController@index'
+    'login' => 'AuthController@login',
+    'register' => 'AuthController@register',
+    'shop' => 'ShopController@index'
 ]);
 
 $router->post([
-	'send' => 'controllers/formHandlerController.php',
-    'test/testpost' => 'TestController@testpost'
+    'loginPost' => 'AuthController@loginPost',
+    'logout' => 'AuthController@logout',
+    'registerPost' => 'AuthController@registerPost'
 ]);
 

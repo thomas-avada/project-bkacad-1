@@ -32,6 +32,22 @@ if(!function_exists('request')){
         }
     }
 }
+if(!function_exists('session')){
+    /**
+     * @param null $key
+     * @return mixed
+     */
+    function session ($key = null, $value = null)
+    {
+        if(is_null($key)){
+            return Container::resolve('Session');
+        }
+        if(!is_null($key && !is_null($value))){
+            return Container::resolve('Session')->set($key, $value);
+        }
+        return Container::resolve('Session')->get($key);
+    }
+}
 if(!function_exists('redirect')){
     /**
      * @param null $key
@@ -42,7 +58,7 @@ if(!function_exists('redirect')){
         if(is_null($route)){
             return Container::resolve('Redirect');
         }
-        return Container::resolve('Redirect')->toRoute($route);
+        return Container::resolve('Redirect');
     }
 }
 /* =========================================Relationship Helpers===================================*/

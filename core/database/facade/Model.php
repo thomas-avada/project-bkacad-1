@@ -8,6 +8,13 @@ abstract class Model {
 
     protected static $tablename;
 
+    protected static $primary = 'id';
+
+    public static function getTableName()
+    {
+        return self::$tablename;
+    }
+
     public static function __callStatic($method, $arguments)
     {
         if(!isset(static::$tablename)){

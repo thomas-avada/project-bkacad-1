@@ -12,3 +12,6 @@ npm-debug.log
 yarn-error.log
 .env
 /.phpintel
+/bower_components
+/resources/views/admin/theme_src
+/.idea

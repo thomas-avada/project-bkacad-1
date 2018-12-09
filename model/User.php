@@ -28,6 +28,27 @@ class User extends Model
         return false;
     }
 
+    public static function isAdminValid($email, $password)
+    {
+        $user = self::select()->find($email, 'email');
+        if(!$user){
+            flash()->error('You have failed to login!');
+            return false;
+        }
+        if($user['role_id'] != '1'){
+            flash()->error('You have failed to login!');
+            return false;
+        }
+        if(password_verify($password, $user['password'])){
+            flash()->success('Login successfully!');
+            static::login($user);
+            return true;
+        }
+        
+        flash()->error('You have failed to login!');
+        return false;
+    }
+
     public static function login($user)
     {
         $user = array_diff_key($user, [

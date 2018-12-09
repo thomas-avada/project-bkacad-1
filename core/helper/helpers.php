@@ -14,6 +14,14 @@ if(!function_exists('view')){
     }
 }
 
+if(!function_exists('dd')){
+    function dd ($data)
+    {
+        var_dump($data);
+        die();
+    }
+}
+
 if(!function_exists('request')){
     /**
      * @param null $key

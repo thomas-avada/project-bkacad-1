@@ -8,6 +8,9 @@ class Session {
 
     protected $closed = true;
 
+    const ADMIN_ROLE = 1;
+    const NORMAL_ROLE = 2;
+
     /**
      * Get all session items
      * @return mixed
@@ -90,6 +93,16 @@ class Session {
     public function isLoggedIn()
     {
         return $this->has('customer') ? true : false;
+    }
+
+    public function isAdmin()
+    {
+        return $this->getRole() == self::ADMIN_ROLE ? true :false;
+    }
+
+    public function getRole()
+    {
+        return $this->customer()['role_id'];
     }
 
     public function logout()

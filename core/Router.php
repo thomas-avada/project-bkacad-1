@@ -43,7 +43,7 @@ class Router
 
 		}
 		else{
-			throw new Exception;
+			throw new \Exception('There is something wrong in defining roues');
 		}
 	}
 
@@ -53,10 +53,15 @@ class Router
 		$controllerInstance = new $controller;
 		if(method_exists($controllerInstance, $action))
 		{
+			if($controllerInstance instanceof \App\Controllers\Admin\AdminController){
+				if(!session()->isAdmin()){
+					return redirect()->toRoute('admin/login');
+				}
+			}
 			$controllerInstance->$action();
 		}
 		else{
-			throw new Exception("No method $action() in $controller");
+			throw new \Exception("No method $action() in $controller");
 		}
 	}
 }

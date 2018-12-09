@@ -15,6 +15,11 @@ abstract class Model {
         return self::$tablename;
     }
 
+    public static function all()
+    {
+        return DB::table(static::$tablename)->select()->get();
+    }
+
     public static function __callStatic($method, $arguments)
     {
         if(!isset(static::$tablename)){

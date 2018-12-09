@@ -6,7 +6,6 @@
 	<?php include 'partials/css.view.php'; ?>
 </head>
 
-
 <body>
 <!-- HEADER -->
 <?php include 'partials/header.view.php'; ?>
@@ -24,6 +23,9 @@
 <?php include 'partials/alert.view.php'; ?>
 <!--/Alert box -->
 
+<!-- Main content -->
+<?php include 'content/shop/home.view.php'; ?>
+<!-- /Main content -->
 <?php if (session()->isLoggedIn()){
 	echo "<pre>";
 	print_r(session()->all());

@@ -33,7 +33,6 @@
         <!-- /footer content -->
       </div>
     </div>
-
     <?php include 'partials/script.view.php'; ?>
   </body>
 </html>

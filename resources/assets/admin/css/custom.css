@@ -4256,3 +4256,30 @@ table thead .checkbox.radio { margin-top:-7px;margin-top:-21px; }
     background-color: #ffff !important;
 }
 /** /bootstrap-datetimepicker **/
+
+
+/*My customization*/
+
+.cell-img{
+    max-width: 100px;
+}
+
+.btn-action{
+    background-color: #2A3F54;
+    color: white;
+}
+
+.product-edit-img-wrapper{
+    width: 200px;
+    height: auto;
+}
+
+.img-preview{
+    width: 100%;
+
+}
+.img-preview .preview-item{
+    float: left;
+    width: 120px;
+    height: 120px;
+}

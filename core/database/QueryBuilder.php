@@ -30,7 +30,20 @@ class QueryBuilder
             {
                 return $statement->fetchAll(\PDO::FETCH_ASSOC);
             }
+            if(get_class($query) == "ClanCats\Hydrahon\Query\Sql\Update" || 
+            get_class($query) == "ClanCats\Hydrahon\Query\Sql\Delete"){
+                return $statement->rowCount();
+            }
+            if(get_class($query) == "ClanCats\Hydrahon\Query\Sql\Insert"){
+                return $this->conn->lastInsertId();
+            }
+            
         });
+    }
+
+    public function getConnection()
+    {
+        return $this->conn;
     }
 
 }

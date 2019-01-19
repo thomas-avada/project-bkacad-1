@@ -22,9 +22,9 @@
           <!-- Alert box -->
           <?php include 'partials/alert.view.php'; ?>
           <!--/Alert box -->
-          <div class="">
-            
-          </div>
+          <!--Main content -->
+          <?php include 'content/dashboard/top-widgets.view.php'?> 
+          <!--/Main content-->
         </div>
         <!-- /page content -->
 

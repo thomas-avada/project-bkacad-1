@@ -10,7 +10,7 @@
                 <span class="category-header">Categories <i class="fa fa-list"></i></span>
                 <ul class="category-list">
                     <?php foreach ($categories as $category): ?>
-                    <li><a href="#"><?= $category['category_name'] ;?></a></li>
+                    <li><a href="/shop?categories[]=<?= $category['category_name'] ;?>"><?= $category['category_name'] ;?></a></li>
                     <?php endforeach ?>
                 </ul>
             </div>

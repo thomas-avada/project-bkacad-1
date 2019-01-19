@@ -41,15 +41,15 @@ $('#home-slick').slick({
 });
 
 // PRODUCTS SLICK
-$('#product-slick-1').slick({
+$('#latest-product-slick').slick({
   slidesToShow: 3,
-  slidesToScroll: 2,
+  slidesToScroll: 1,
   autoplay: true,
   infinite: true,
   speed: 300,
   dots: true,
   arrows: false,
-  appendDots: '.product-slick-dots-1',
+  appendDots: '.latest-product-slick-dots',
   responsive: [{
       breakpoint: 991,
       settings: {
@@ -129,14 +129,14 @@ if (slider) {
     tooltips: [true, true],
     format: {
       to: function(value) {
-        return value.toFixed(2);
+        return value.toFixed(0);
       },
       from: function(value) {
         return value
       }
     },
     range: {
-      'min': 1,
+      'min': 0,
       'max': 10000
     }
   });

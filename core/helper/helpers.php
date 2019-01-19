@@ -1,6 +1,7 @@
 <?php
 use App\Core\Facade\Request;
 use App\Core\Container;
+use App\Model\Backend\Config;
 
 if(!function_exists('view')){
     /**
@@ -14,11 +15,74 @@ if(!function_exists('view')){
     }
 }
 
+if(!function_exists('view_path')){
+    /**
+     * @param $view
+     * @param array $data
+     */
+    function view_path ($path)
+    {
+        return __DIR__. "/../../resources/views/".$path;
+    }
+}
+
+if(!function_exists('view_apath')){
+    /**
+     * @param $view
+     * @param array $data
+     */
+    function view_apath ($path)
+    {
+        return __DIR__. "/../../resources/views/admin/".$path;
+    }
+}
+
+if(!function_exists('partial_path')){
+    /**
+     * @param $view
+     * @param array $data
+     */
+    function partial_path ($path)
+    {
+        return __DIR__. "/../../resources/views/partials/".$path;
+    }
+}
+
+if(!function_exists('partial_apath')){
+    /**
+     * @param $view
+     * @param array $data
+     */
+    function partial_apath ($path)
+    {
+        return __DIR__. "/../../resources/views/admin/partials".$path;
+    }
+}
+
+if(!function_exists('component')){
+    /**
+     * @param $view
+     * @param array $data
+     */
+    function component ($component, $data = [])
+    {
+        extract($data);
+        include "resources/views/components/".$component.".view.php";
+    }
+}
+
 if(!function_exists('dd')){
     function dd ($data)
     {
         var_dump($data);
         die();
+    }
+}
+
+if(!function_exists('auth')){
+    function auth ()
+    {
+        return session()->customer();
     }
 }
 
@@ -69,6 +133,25 @@ if(!function_exists('redirect')){
         return Container::resolve('Redirect');
     }
 }
+
+if(!function_exists('currency_price')){
+    /**
+     * @param null $key
+     * @return mixed
+     */
+    function currency_price($price)
+    {
+        $configs = Config::getCurrencyConfig();
+        $price = number_format($price, 0, ',', '.');
+        if($configs['/config/currency/currency_order'] == 'after'){
+            return $price . $configs['/config/currency/currency_symbol'];
+        }
+        if($configs['/config/currency/currency_order'] == 'before'){
+            return $configs['/config/currency/currency_symbol'] . $price ;
+        }
+    }
+}
+
 /* =========================================Relationship Helpers===================================*/
 
 if(!function_exists('oneToMany')){

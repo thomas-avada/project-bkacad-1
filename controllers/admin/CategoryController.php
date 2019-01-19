@@ -7,15 +7,20 @@ class CategoryController extends AdminController
 {
 	public function index()
 	{
-		$page = 0;
-		if(request()->has('page')){
-			$page = request('page') -1 ;
-		}
+		$categories = Category::adminFilter(request()->all())->get();
 
-		$categories = Category::getTenPerPage($page);
-
+		$count = Category::adminFilter(request()->all())->count();
+		$pagination = [
+            'last' => ceil($count / 10)
+        ];
 		// dd($categories);
-		return view('admin/categories', compact('categories'));
+		return view('admin/categories', [
+			'categories' => $categories,
+			'page' => request('page'),
+			'pagination' => $pagination,
+            'order' => request('order'),
+            'direction' => request('direction')
+		]);
 	}
 
 	public function create()

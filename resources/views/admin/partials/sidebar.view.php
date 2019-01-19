@@ -16,6 +16,16 @@
           <li><a href="/admin/products"><i class="fa fa-edit"></i> Products</a></li>
           <li><a href="/admin/categories"><i class="fa fa-book"></i> Categories</a></li>
           <li><a href="/admin/brands"><i class="fa fa-tag"></i> Brands</a></li>
+          <li><a href="/admin/customers"><i class="fa fa-users"></i> Customers</a></li>
+          <li><a href="/admin/orders"><i class="fa"></i> Orders</a></li>
+          <li>
+            <a>
+              <i class="fa fa-setting"></i> Configuration <span class="fa fa-chevron-down"></span>
+            </a>
+            <ul class="nav child_menu">
+              <li><a href="/admin/configuration/currency">Currency Configuration</a></li>
+            </ul>
+          </li>
         </ul>
       </div>
     </div>

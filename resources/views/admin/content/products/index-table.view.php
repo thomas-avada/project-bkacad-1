@@ -1,17 +1,38 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="x_panel">
     <div class="x_title">
-      <h1>Products</h1>
-      <ul class="nav navbar-right panel_toolbox">
-        <li>
-          <a href="/admin/product/create" class="btn btn-lg btn-default">New Product</a>
-        </li>
-        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-        </li>
-      
-        <li><a class="close-link"><i class="fa fa-close"></i></a>
-        </li>
-      </ul>
+        <h1>Products</h1>
+        <ul class="nav navbar-left panel_toolbox action_toolbar">
+            <li>
+                <label for="pagination">Page: </label>
+                <select name="page" id="pagination">
+                    <?php for($i = 1; $i <= $pagination['last']; $i++): ?>
+                        <option value="<?= $i;?>" <?= ($page == $i) ? 'selected' : ''; ?>><?=$i;?></option>
+                    <?php endfor; ?>
+                </select>
+            </li>
+            <li>
+                <label for="orderBy">Order By: </label>
+                <select class="input" id="orderBy" name="order">
+                    <option value="product_id" <?= $order == 'product_id' ? 'selected' : ''; ?>>ID</option>
+                    <option value="price" <?= $order == 'price' ? 'selected' : ''; ?>>Price</option>
+                    <option value="created_at" <?= $order == 'created_at' ? 'selected' : ''; ?>>Time</option>
+                </select>
+                <select class="input" id="sort-direction" name="direction">
+                    <option value="asc" <?= ($direction == 'asc') ? 'selected' : ''; ?>>Ascending</option>
+                    <option value="desc" <?= ($direction == 'desc') ? 'selected' : ''; ?>>Descending</option>
+                </select>
+            </li>
+            <div class="clearfix"></div>
+            <button class="btn btn-primary btn-filter btn-sm">
+                Filter
+            </button>
+        </ul>
+        <ul class="nav navbar-right panel_toolbox">
+            <li>
+              <a href="/admin/product/create" class="btn btn-lg btn-default">New Product</a>
+            </li>
+        </ul>
       <div class="clearfix"></div>
     </div>
 
@@ -26,6 +47,7 @@
               </th>
               <th class="column-title">ID </th>
               <th class="column-title">Product Name </th>
+              <th class="column-title">Image </th>
               <th class="column-title">Category </th>
               <th class="column-title">Brand</th>
               <th class="column-title">Price </th>
@@ -41,28 +63,28 @@
                 <td class="a-center ">
                   <input type="checkbox" class="flat" name="table_records">
                 </td>
-                <td class=" "><?= $product['product_id'];?></td>
-                <td class=" "><?= $product['product_name'] ;?></td>
-                <td class=" "><?= $product['category_name'] ;?></i></td>
-                <td class=" "><?= $product['brand_name'] ;?></td>
-                <td class="a-right a-right "><?= $product['price'] ;?></td>
+                <td><?= $product['product_id'];?></td>
+                <td><?= $product['product_name'] ;?></td>
+                <td>
+                    <img class="responsive-img cell-img" src="<?= "/".$product['img']; ?>" alt="<?=$product['product_name']. ' image' ;?>"></td>
+                <td><?= $product['category_name'] ;?></i></td>
+                <td><?= $product['brand_name'] ;?></td>
+                <td class="a-right a-right "><?= currency_price($product['price']) ;?></td>
                 <td class=""><?= $product['quantity'] ;?></td>
                 <td class=" last">
-                  <a href="/admin/product/edit?id=<?= $product['product_id']; ?>">Edit</a>
-                  <a href="/admin/product/delete?id=<?= $product['product_id']; ?>">Delete</a>
+                    <?php
+                    component('admin/bulk-actions', [
+                        'actions' => [
+                            ['name' => 'Edit', 'link' => "/admin/product/edit?id=".$product['product_id']],
+                            ['name' => 'Delete', 'link' => "/admin/product/delete?id=".$product['product_id']]
+                        ]
+                    ]) ?>
                 </td>
               </tr>
             <?php endforeach ?>
             
           </tbody>
         </table>
-        <ul class="pagination">
-          <li><a href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li><a href="#">4</a></li>
-          <li><a href="#">5</a></li>
-        </ul>
       </div>
 
 

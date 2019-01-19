@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>E-SHOP HTML Template</title>
+    <title>Spect Fashion</title>
 
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
@@ -21,6 +21,9 @@
 
     <!-- Font Awesome Icon -->
     <link rel="stylesheet" href="/resources/assets/css/font-awesome.min.css">
+  
+    <!-- Shortcut icon -->
+    <link type="image/x-icon" rel="shortcut icon" href="/public/storage/images/iconlogo.png">
 
     <!-- Custom stylesheet -->
     <link type="text/css" rel="stylesheet" href="/resources/assets/css/style.css" />

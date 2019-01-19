@@ -4,18 +4,26 @@ namespace App\Controllers\Admin;
 use App\Model\Product;
 use App\Model\Brand;
 use App\Model\Category;
+use Ausi\SlugGenerator\SlugGenerator;
 
 class ProductController extends AdminController
 {
 	public function index()
 	{
-		$page = 0;
-		if(request()->has('page')){
-			$page = request('page') -1 ;
-		}
-		$products = Product::getTenPerPage($page);
-		// dd($products);
-		return view('admin/products', compact('products'));
+//		$products = Product::getTenPerPage($page);
+		$products = Product::adminFilter(request()->all())->get();
+//		 dd($products);
+		$count = Product::select()->count();
+		$pagination = [
+            'last' => ceil($count / 10)
+        ];
+		return view('admin/products', [
+			'products' => $products, 
+			'pagination' => $pagination, 
+			'page' => request('page'),
+            'order' => request('order'),
+            'direction' => request('direction')
+		]);
 	}
 
 	public function create()
@@ -32,20 +40,39 @@ class ProductController extends AdminController
 
 	public function store()
 	{
-		// request()->store('product_img');
-		// dd(request()->all());
-		Product::insert([
+		$generator = new SlugGenerator;
+
+		$data = [
 			'product_name' => request('product_name'),
+			'slug' => $generator->generate(request('product_name')),
 			'description' => request('description'),
+			'rich_description' => request('rich_description'),
 			'category_id' => request('category'),
 			'brand_id' => request('brand'),
 			'price' => request('price'),
 			'status' => request('status'),
-			'img' => request()->store('product_img') ?: 'resoures/assets/img/default.jpg'
-		])->execute();
+			'quantity' => request('quantity'),
+			'gender' => request('gender'),
+			'featured' => request('featured')
+		];
+
+		if(request()->hasFile('product_img')){
+			$data['img'] = request()->store('product_img');
+		}
+
+		if(request()->hasFile('product_images')){
+			$images = [];
+			foreach (request()->file('product_images')['name'] as $index => $value) {
+				$images[] = request()->store('product_images', $index);
+			}
+			$data['images'] = json_encode($images);
+		}
+
+
+		$product = Product::insert($data)->execute();
 
 		if(request()->get('back')){
-			return redirect()->back();
+			return redirect()->toRoute("admin/product/edit?id=$product");
 		}
 		return redirect()->toRoute('admin/products');
 	}
@@ -68,12 +95,16 @@ class ProductController extends AdminController
 
 	public function update()
 	{
+
 		if(!request('id')){
 			return redirect()->toRoute('admin/products');
 		}
+
+		$currentProduct = Product::select()->find(request('id'));
 		$data = [
 			'product_name' => request('product_name'),
 			'description' => request('description'),
+			'rich_description' => request('rich_description'),
 			'category_id' => request('category'),
 			'brand_id' => request('brand'),
 			'price' => request('price'),
@@ -81,7 +112,25 @@ class ProductController extends AdminController
 			'quantity' => request('quantity')
 		];
 		if(request()->hasFile('product_img')){
+
+			if(file_exists($currentProduct['img'])){
+				unlink($currentProduct['img']);
+			}
+			
 			$data['img'] = request()->store('product_img');
+		}
+		// dd($_FILES['product_images']['size'][0]);
+		if(request()->hasFile('product_images')){
+			foreach (json_decode($currentProduct['images']) as $image) {
+				if(file_exists($image)){
+					unlink($image);
+				}
+			}
+			$images = [];
+			foreach (request()->file('product_images')['name'] as $index => $value) {
+				$images[] = request()->store('product_images', $index);
+			}
+			$data['images'] = json_encode($images);
 		}
 
 		Product::update($data)

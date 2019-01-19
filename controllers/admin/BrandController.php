@@ -7,15 +7,19 @@ class BrandController extends AdminController
 {
 	public function index()
 	{
-		$page = 0;
-		if(request()->has('page')){
-			$page = request('page') -1 ;
-		}
-
-		$brands = Brand::getTenPerPage($page);
-
+	    $brands = Brand::adminFilter(request()->all())->get();
+		$count = Brand::adminFilter(request()->all())->count();
+		$pagination = [
+            'last' => ceil($count / 10)
+        ];
 		// dd($brands);
-		return view('admin/brands', compact('brands'));
+		return view('admin/brands', [
+			'brands' => $brands,
+			'pagination' => $pagination,
+			'page' => request('page'),
+            'order' => request('order'),
+            'direction' => request('direction')
+		]);
 	}
 
 	public function create()

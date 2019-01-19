@@ -117,4 +117,10 @@ class Session {
         return redirect()->home();
 
     }
+
+    public function setCustomer($key, $value)
+    {
+        $_SESSION['customer'][$key] = $value;
+        return $this;
+    }
 }

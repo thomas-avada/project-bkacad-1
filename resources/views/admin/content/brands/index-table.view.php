@@ -2,14 +2,35 @@
   <div class="x_panel">
     <div class="x_title">
       <h1>Brands</h1>
+        <ul class="nav navbar-left panel_toolbox action_toolbar">
+            <li>
+                <label for="pagination">Page: </label>
+                <select name="page" id="pagination">
+                    <?php for($i = 1; $i <= $pagination['last']; $i++): ?>
+                        <option value="<?= $i;?>" <?= ($page == $i) ? 'selected' : ''; ?>><?=$i;?></option>
+                    <?php endfor; ?>
+                </select>
+            </li>
+            <li>
+                <label for="orderBy">Order By: </label>
+                <select class="input" id="orderBy" name="order">
+                    <option value="id" <?= $order == 'product_id' ? 'selected' : ''; ?>>ID</option>
+                    <option value="brand_name" <?= $order == 'brand_name' ? 'selected' : ''; ?>>Brand Name</option>
+                    <option value="created_at" <?= $order == 'created_at' ? 'selected' : ''; ?>>Time</option>
+                </select>
+                <select class="input" id="sort-direction" name="direction">
+                    <option value="asc" <?= ($direction == 'asc') ? 'selected' : ''; ?>>Ascending</option>
+                    <option value="desc" <?= ($direction == 'desc') ? 'selected' : ''; ?>>Descending</option>
+                </select>
+            </li>
+            <div class="clearfix"></div>
+            <button class="btn btn-primary btn-filter btn-sm">
+                Filter
+            </button>
+        </ul>
       <ul class="nav navbar-right panel_toolbox">
         <li>
           <a href="/admin/brand/create" class="btn btn-md btn-default">New Brand</a>
-        </li>
-        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-        </li>
-      
-        <li><a class="close-link"><i class="fa fa-close"></i></a>
         </li>
       </ul>
       <div class="clearfix"></div>
@@ -44,21 +65,19 @@
                 <td class=" "><?= $brand['created_at'] ;?></i></td>
                 <td class=" "><?= $brand['updated_at'] ;?></td>
                 <td class=" last">
-                  <a href="/admin/brand/edit?id=<?= $brand['id']; ?>">Edit</a>
-                  <a href="/admin/brand/delete?id=<?= $brand['id']; ?>">Delete</a>
+                    <?php
+                    component('admin/bulk-actions', [
+                        'actions' => [
+                            ['name' => 'Edit', 'link' => "/admin/brand/edit?id=".$brand['id']],
+                            ['name' => 'Delete', 'link' => "/admin/brand/delete?id=".$brand['id']]
+                        ]
+                    ]) ?>
                 </td>
               </tr>
             <?php endforeach ?>
             
           </tbody>
         </table>
-        <ul class="pagination">
-          <li><a href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li><a href="#">4</a></li>
-          <li><a href="#">5</a></li>
-        </ul>
       </div>
     </div>
   </div>

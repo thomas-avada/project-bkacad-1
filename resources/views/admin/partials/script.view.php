@@ -20,6 +20,10 @@
 <script src="/bower_components/flot.orderbars/js/jquery.flot.orderBars.js"></script>
 <script src="/bower_components/flot-spline/js/jquery.flot.spline.min.js"></script>
 <script src="/bower_components/flot.curvedlines/curvedLines.js"></script>
+<!-- bootstrap-wysiwyg -->
+<script src="/bower_components/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
+<!-- jQuery hotkey -->
+<script src="/bower_components/jquery.hotkeys/jquery.hotkeys.js"></script>
 <!-- DateJS -->
 <script src="/bower_components/DateJS/build/date.js"></script>
 <!-- bootstrap-daterangepicker -->
@@ -28,7 +32,12 @@
 <!-- validator -->
 <script src="/bower_components/validator/validator.js"></script>
 
+<!-- Dropzone.js -->
+<script src="/bower_components/dropzone/dist/min/dropzone.min.js"></script>
+
+
 <!-- Custom Theme Scripts -->
 <script src="/resources/assets/admin/js/custom.js"></script>
+
 
 <script src="/resources/assets/admin/js/app.js"></script>

@@ -5,6 +5,8 @@ use App\Core\Database\Facade\Model;
 
 class Brand extends Model
 {
+    use \App\Model\QueryTrait\Filterable;
+    
 	protected static $tablename = 'brands';
 
 	public static function getTenPerPage($page)

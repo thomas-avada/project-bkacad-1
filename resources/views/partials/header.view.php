@@ -1,36 +1,11 @@
+<?php
+use App\Core\Facade\Cart;
+if(session()->isLoggedIn()){
+    $cartItems = Cart::all();
+}
+
+?>
 <header>
-    <!-- top Header -->
-    <div id="top-header">
-        <div class="container">
-            <div class="pull-left">
-                <span>Welcome to E-shop!</span>
-            </div>
-            <div class="pull-right">
-                <ul class="header-top-links">
-                    <li><a href="#">Store</a></li>
-                    <li><a href="#">Newsletter</a></li>
-                    <li><a href="#">FAQ</a></li>
-                    <li class="dropdown default-dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">ENG <i class="fa fa-caret-down"></i></a>
-                        <ul class="custom-menu">
-                            <li><a href="#">English (ENG)</a></li>
-                            <li><a href="#">Russian (Ru)</a></li>
-                            <li><a href="#">French (FR)</a></li>
-                            <li><a href="#">Spanish (Es)</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown default-dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">USD <i class="fa fa-caret-down"></i></a>
-                        <ul class="custom-menu">
-                            <li><a href="#">USD ($)</a></li>
-                            <li><a href="#">EUR (€)</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <!-- /top Header -->
 
     <!-- header -->
     <div id="header">
@@ -39,15 +14,15 @@
                 <!-- Logo -->
                 <div class="header-logo">
                     <a class="logo" href="/">
-                        <img src="/resources/assets/img/logo.png" alt="">
+                        <img src="/public/storage/images/logon.png" alt="">
                     </a>
                 </div>
                 <!-- /Logo -->
 
                 <!-- Search -->
                 <div class="header-search">
-                    <form>
-                        <input class="input search-input" type="text" placeholder="Enter your keyword">
+                    <form action="/search" method="GET">
+                        <input class="input search-input" name="keyword" type="text" placeholder="Enter your keyword">
                         <select class="input search-categories">
                             <option value="0">All Categories</option>
                             <option value="1">Category 01</option>
@@ -84,72 +59,60 @@
                             <div class="header-btns-icon">
                                 <i class="fa fa-user-o"></i>
                             </div>
-                            <strong class="text-uppercase"><?= session()->customer()['user_name'];?><i class="fa fa-caret-down"></i></strong>
+                            <strong class="text-uppercase"><?= session()->customer()['firstname'];?><i class="fa fa-caret-down"></i></strong>
                         </div>
-                        <a href="/logout" class="text-uppercase""
-                           onclick="event.preventDefault();
-                                         document.getElementById('logout-form').submit();">
-                            Logout
-                        </a>
 
                         <form id="logout-form" action="/logout" method="POST" style="display: none;">
                         </form>
                         <ul class="custom-menu">
-                            <li><a href="#"><i class="fa fa-user-o"></i><?= session()->customer()['user_name'];?></a></li>
+                            <li><a href="/customer/dashboard"><i class="fa fa-user-o"></i><?= session()->customer()['firstname'];?></a></li>
                             <li><a href="#"><i class="fa fa-heart-o"></i> My Wishlist</a></li>
                             <li><a href="#"><i class="fa fa-exchange"></i> Compare</a></li>
                             <li><a href="#"><i class="fa fa-check"></i> Checkout</a></li>
                             <li><a href="/login"><i class="fa fa-unlock-alt"></i> Login</a></li>
                             <li><a href="/register"><i class="fa fa-user-plus"></i> Create An Account</a></li>
+                            <li><a href="/logout" class="text-uppercase""
+                           onclick="event.preventDefault();
+                                         document.getElementById('logout-form').submit();">
+                            Logout
+                            </a></li>
                         </ul>
                         <?php endif ?>
                         
                     </li>
                     <!-- /Account -->
-
+                    <?php if (session()->isLoggedIn()): ?>
                     <!-- Cart -->
                     <li class="header-cart dropdown default-dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                             <div class="header-btns-icon">
                                 <i class="fa fa-shopping-cart"></i>
-                                <span class="qty">3</span>
+                                <span class="qty"><?=Cart::count();?></span>
                             </div>
                             <strong class="text-uppercase">My Cart:</strong>
                             <br>
-                            <span>35.20$</span>
+                            <span><?=currency_price(Cart::total())?></span>
                         </a>
                         <div class="custom-menu">
                             <div id="shopping-cart">
                                 <div class="shopping-cart-list">
-                                    <div class="product product-widget">
-                                        <div class="product-thumb">
-                                            <img src="/resources/assets/img/thumb-product01.jpg" alt="">
-                                        </div>
-                                        <div class="product-body">
-                                            <h3 class="product-price">$32.50 <span class="qty">x3</span></h3>
-                                            <h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
-                                        </div>
-                                        <button class="cancel-btn"><i class="fa fa-trash"></i></button>
-                                    </div>
-                                    <div class="product product-widget">
-                                        <div class="product-thumb">
-                                            <img src="/resources/assets/img/thumb-product01.jpg" alt="">
-                                        </div>
-                                        <div class="product-body">
-                                            <h3 class="product-price">$32.50 <span class="qty">x3</span></h3>
-                                            <h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
-                                        </div>
-                                        <button class="cancel-btn"><i class="fa fa-trash"></i></button>
-                                    </div>
+                                    <?php if(Cart::isEmpty()): ?>
+                                    <span>Your cart is empty</span>
+                                    <?php endif ?>
+                                    <?php foreach ($cartItems as $item): ?>
+                                        <?php component('minicart/product', compact('item')) ?>
+                                    <?php endforeach ?>
                                 </div>
                                 <div class="shopping-cart-btns">
-                                    <button class="main-btn">View Cart</button>
-                                    <button class="primary-btn">Checkout <i class="fa fa-arrow-circle-right"></i></button>
+                                    <a class="main-btn" href="/checkout/cart">View Cart</a>
+                                    <a class="primary-btn" href="/checkout">Checkout <i class="fa fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
                         </div>
                     </li>
                     <!-- /Cart -->
+                    <?php endif ?>
+                    
 
                     <!-- Mobile nav toggle-->
                     <li class="nav-toggle">

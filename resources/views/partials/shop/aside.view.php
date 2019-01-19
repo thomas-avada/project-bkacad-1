@@ -3,7 +3,6 @@
     use App\Model\Category;
     $brands = Brand::all();
     $categories = Category::all();
-
 ?>
 <div id="aside" class="col-md-3">
 	<!-- aside widget -->
@@ -22,7 +21,7 @@
                     type="checkbox"
                     name="brands[]"
                     value="<?= $brand['brand_name'] ;?>"
-                    <?= $brand['brand_name'] == $brand_selected ? 'checked' : '' ;?>
+                    <?= in_array($brand['brand_name'], $brands_selected) ? 'checked' : '' ;?>
                     >
                     <label>
                         <?= $brand['brand_name'] ;?>
@@ -42,7 +41,7 @@
                     type="checkbox"
                     name="categories[]"
                     value="<?= $category['category_name'] ;?>"
-                    <?= $category['category_name'] == $category_selected ? 'checked' : '' ;?>
+                    <?= in_array($category['category_name'], $categories_selected) ? 'checked' : '' ;?>
                     >
                     <label>
                         <?= $category['category_name'] ;?>
@@ -64,37 +63,26 @@
 
 	<!-- aside widget -->
 	<div class="aside">
-		<h3 class="aside-title">Filter By Color:</h3>
-		<ul class="color-option">
-			<li><a href="#" style="background-color:#475984;"></a></li>
-			<li><a href="#" style="background-color:#8A2454;"></a></li>
-			<li class="active"><a href="#" style="background-color:#BF6989;"></a></li>
-			<li><a href="#" style="background-color:#9A54D8;"></a></li>
-			<li><a href="#" style="background-color:#675F52;"></a></li>
-			<li><a href="#" style="background-color:#050505;"></a></li>
-			<li><a href="#" style="background-color:#D5B47B;"></a></li>
-		</ul>
-	</div>
-	<!-- /aside widget -->
-
-	<!-- aside widget -->
-	<div class="aside">
-		<h3 class="aside-title">Filter By Size:</h3>
-		<ul class="size-option">
-			<li class="active"><a href="#">S</a></li>
-			<li class="active"><a href="#">XL</a></li>
-			<li><a href="#">SL</a></li>
-		</ul>
-	</div>
-	<!-- /aside widget -->
-
-	<!-- aside widget -->
-	<div class="aside">
 		<h3 class="aside-title">Filter by Gender</h3>
 		<ul class="list-links">
-			<li class="active"><a href="#">Men</a></li>
-			<li><a href="#">Women</a></li>
-		</ul>
+			
+            <div class="input-radio">
+                <input type="radio" name="gender" value="0" <?= $gender_selected == 0 ? 'checked' : ''?>>
+                <label>Female</label>
+            </div>
+            <div class="input-radio">
+                <input type="radio" name="gender" value="1" <?= $gender_selected == 1 ? 'checked' : ''?>>
+                <label>Male</label>
+            </div>
+            <div class="input-radio">
+                <input type="radio" name="gender" value="2" <?= $gender_selected == 2 ? 'checked' : ''?>>
+                <label>Bi-sexual</label>
+            </div>
+            <div class="input-radio">
+                <input type="radio" name="gender" value="3" <?= $gender_selected === 3 ? 'checked' : ''?> >
+                <label>None</label>
+            </div>
+        </ul>
 	</div>
 	<!-- /aside widget -->
 

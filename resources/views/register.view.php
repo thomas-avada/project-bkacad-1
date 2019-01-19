@@ -16,10 +16,6 @@
 <?php include 'partials/nav.view.php'; ?>
 <!-- /NAVIGATION -->
 
-<!-- BREADCRUMB -->
-<?php include 'partials/breadcrumb.view.php'; ?>
-<!-- /BREADCRUMB -->
-
 <!-- Alert box -->
 <?php include 'partials/alert.view.php'; ?>
 <!--/Alert box -->

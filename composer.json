@@ -6,6 +6,7 @@
 	},
 	"require": {
 		"clancats/hydrahon": "^1.1",
-		"tamtamchik/simple-flash": "^1.2"
+		"tamtamchik/simple-flash": "^1.2",
+		"ausi/slug-generator": "^1.1"
 	}
 }

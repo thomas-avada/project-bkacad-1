@@ -9,7 +9,7 @@
                     <!-- footer logo -->
                     <div class="footer-logo">
                         <a class="logo" href="#">
-                            <img src="/resources/assets/img/logo.png" alt="">
+                            <img src="/public/storage/images/logon.png" alt="">
                         </a>
                     </div>
                     <!-- /footer logo -->

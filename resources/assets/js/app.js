@@ -1,3 +1,11 @@
+//Declare the number formatter
+
+formatter = new Intl.NumberFormat('vi-VN', {
+  minimumFractionDigits: 0,
+  style: 'currency',
+  currency: 'VND'
+})
+
 //Add the fadeout effect on the alert
 setTimeout(function(){
     $('#alert-box').slideUp(1000);
@@ -43,3 +51,60 @@ $('.btn-filter').on('click', function () {
     var url = window.location.origin + '/shop';
     window.location.href = addQuery(url, data);
 });
+
+$('.add-to-cart').on('click', function () {
+    var data = $(this).data();
+    var qty = $('.qty-input>input').val();
+    data['qty'] = qty ? qty : 1;
+    $.post('/cart/add', 
+        data,
+        function(data, textStatus, xhr) {
+            location.reload();
+        });
+});
+
+$('.product-reviews .page-filter').on('change', function(event) {
+    /* Act on the event */
+    var page = $('#pagination').val();
+    window.location.href = appendQuery('page=' + page);
+});
+
+$('.btn-update-cart').on('click', function(){
+    var params = $('#cart-form').serialize();
+    location.href = location.origin + '/cart/massupdate?' + params;
+})
+
+$('.btn-empty-cart').on('click', function(){
+    location.href = location.origin + '/cart/empty'
+})
+
+$('#is_the_same').on('change', function(){
+    if(this.checked){
+        $('#billing-details').slideUp();
+    } else {
+        $('#billing-details').slideDown();
+    }
+})
+
+$('.shipping-method').on('click', function () {
+     $('.loader-block').show();
+    $.post('/shipping-methods/update', {
+        method: $(this).data('code'),
+        fee: $(this).data('fee')
+    }, function(data, textStatus, xhr) {
+        var totalData = JSON.parse(data);
+        $('.total').html(formatter.format(totalData.grand_total));
+        $('.shipping-fee').html(formatter.format(totalData.shipping_fee));
+        $('.loader-block').hide();
+    });
+});
+
+$('.payment-method').on('click', function () {
+    $('.loader-block').show();
+    $.post('/payment-method/update', {
+        method: $(this).data('code')
+    }, function(data, textStatus, xhr) {
+        $('.loader-block').hide();
+    });
+});
+

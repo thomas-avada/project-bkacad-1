@@ -7,5 +7,8 @@
 <!-- bootstrap-daterangepicker -->
 <link href="/bower_components/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
 
+<!-- Dropzone.js -->
+<link href="/bower_components/dropzone/dist/min/dropzone.min.css" rel="stylesheet">
+
 <!-- Custom Theme Style -->
 <link href="/resources/assets/admin/css/custom.css" rel="stylesheet">

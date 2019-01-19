@@ -5,6 +5,8 @@ use App\Core\Database\Facade\Model;
 
 class Category extends Model
 {
+    use \App\Model\QueryTrait\Filterable;
+    
 	protected static $tablename = 'categories';
 
     public static function getTenPerPage($page)

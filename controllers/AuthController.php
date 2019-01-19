@@ -41,10 +41,16 @@ class AuthController
 
     public function registerPost()
     {
+
+        if(request('password') !== request('repassword')){
+            flash()->error('Password confirmation is not correct');
+            return redirect()->back();
+        }
         $customer = User::select()->find(request('email'), 'email');
         if(!session()->isLoggedIn() && !$customer){
             User::insert()->values([
-                 'user_name' => request('customer_name'),
+                 'firstname' => request('firstname'),
+                 'lastname' => request('lastname'),
                  'role_id' => 2,
                  'email' =>request('email'),
                  'password' => password_hash(request('password'), PASSWORD_BCRYPT)

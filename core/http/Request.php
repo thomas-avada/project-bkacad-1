@@ -17,6 +17,15 @@ class Request
 
     public function hasFile($key)
     {
+        if(is_array($_FILES[$key]['size'])){
+            $valid = 1;
+            foreach ($_FILES[$key]['size'] as $index => $value) {
+                if($_FILES[$key]['size'][$index] <=  0){
+                    $valid = 0;
+                }
+            }
+            return $valid ? true : false;
+        }
         return $_FILES[$key]['size'] > 0 ? true : false;
     }
 
@@ -81,16 +90,18 @@ class Request
         return $_FILES[$key];
     }
 
-    public function store($index, $target = null)
+    public function store($index, $subindex = null, $target = null)
     {
         $target_dir = is_null($target) ? self::PUBLIC_FOLDER : $target;
-        $imageFileType = strtolower(pathinfo(basename($_FILES[$index]["name"]), PATHINFO_EXTENSION));
+        $filename = is_null($subindex) ? $_FILES[$index]["name"] : $_FILES[$index]["name"][$subindex];
+        $imageFileType = strtolower(pathinfo(basename($filename), PATHINFO_EXTENSION));
         $target_file = $target_dir . uniqid() . '.' . $imageFileType;
         $uploadOk = 1;
         
         // Check if image file is a actual image or fake image
         if($this->hasPost('submit')) {
-            $check = getimagesize($_FILES[$index]["tmp_name"]);
+            $tmp_name = is_null($subindex) ? $_FILES[$index]["tmp_name"] : $_FILES[$index]["tmp_name"][$subindex];
+            $check = getimagesize($tmp_name);
             if($check !== false) {
                 throw new \Exception("File is an image - " . $check["mime"] . ".");
                 $uploadOk = 1;
@@ -105,7 +116,8 @@ class Request
             $uploadOk = 0;
         }
         // Check file size
-        if ($_FILES[$index]["size"] > 500000) {
+        $file_size = is_null($subindex) ? $_FILES[$index]["size"] : $_FILES[$index]["size"][$subindex];
+        if ($file_size > 500000) {
             throw new \Exception("Sorry, your file is too large.");
             $uploadOk = 0;
         }
@@ -121,7 +133,8 @@ class Request
             return false;
         // if everything is ok, try to upload file
         } else {
-            if (move_uploaded_file($_FILES[$index]["tmp_name"], $target_file)) {
+            $tmp_name = is_null($subindex) ? $_FILES[$index]["tmp_name"] : $_FILES[$index]["tmp_name"][$subindex];
+            if (move_uploaded_file($tmp_name, $target_file)) {
                 return $target_file;
                 // echo "The file ". basename( $_FILES[$index]["name"]). " has been uploaded.";
             } else {

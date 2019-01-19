@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<?php include 'partials/meta.view.php'; ?>
-	<title>E-SHOP HTML Template</title>
+	<title>Spect Fashion</title>
 	<?php include 'partials/css.view.php'; ?>
 </head>
 
@@ -15,10 +15,6 @@
 <?php include 'partials/nav.view.php'; ?>
 <!-- /NAVIGATION -->
 
-<!-- BREADCRUMB -->
-<?php include 'partials/breadcrumb.view.php'; ?>
-<!-- /BREADCRUMB -->
-
 <!-- Alert box -->
 <?php include 'partials/alert.view.php'; ?>
 <!--/Alert box -->
@@ -26,12 +22,6 @@
 <!-- Main content -->
 <?php include 'content/shop/home.view.php'; ?>
 <!-- /Main content -->
-<?php if (session()->isLoggedIn()){
-	echo "<pre>";
-	print_r(session()->all());
-	echo "</pre>";
-} 
-?>
 
 <!-- FOOTER -->
 <?php include 'partials/footer.view.php'; ?>

@@ -63,6 +63,27 @@
           </div>
         </div>
         <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12">Gender</label>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <select class="select2_single form-control" tabindex="-1" name="gender">
+              <option value="2">Bi-sexual</option>
+              <option value="0">Female</option>
+              <option value="1">Male</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12">Featured Product</label>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" value="1" name="featured">
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
           <label class="control-label col-md-3 col-sm-3 col-xs-12" for="quantity">Quantity<span class="required">*</span>
           </label>
           <div class="col-md-6 col-sm-6 col-xs-12">
@@ -73,7 +94,20 @@
           <label class="control-label col-md-3 col-sm-3 col-xs-12" for="product_img">Product Image<span class="required">*</span>
           </label>
           <div class="col-md-6 col-sm-6 col-xs-12">
-            <input type="file" id="product_img" name="product_img" class="form-control col-md-7 col-xs-12">
+            <div class="product-edit-img-wrapper img-preview ">
+              
+            </div>
+            <input type="file" id="product_img" name="product_img" class="file-input form-control col-md-7 col-xs-12">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="product_img">Product Images Gallery<span class="required">*</span>
+          </label>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="product-edit-img-wrapper img-preview">
+              
+            </div>
+            <input type="file" id="product_images" name="product_images[]" multiple="" class="form-control col-md-7 col-xs-12 file-input">
           </div>
         </div>
         

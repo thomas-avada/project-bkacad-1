@@ -3,9 +3,14 @@ namespace App\Model;
 
 use App\Core\Database\Facade\Model;
 use App\Core\Facade\DB;
+use App\Core\Cart\CartRepository as Cart;
+use App\Core\Container;
+use App\Core\Total\Total;
 
 class User extends Model
 {
+    use \App\Model\QueryTrait\Filterable;
+
     protected static $tablename = 'users';
 
     const ROLE_ADMIN = 1;
@@ -57,21 +62,26 @@ class User extends Model
             'settings' => ''
         ]);
         session()->set('customer', $user);
+        session()->set('cart', new Cart());
+        session()->set('total', new Total());
     }
 
     public static function createNewUser(array $params)
     {
         $hash = password_hash($params['password'], PASSWORD_BCRYPT);
-        var_dump($hash);
-        die();
         $user = DB::table('users')->insert()->values([
              'user_name' => $params['customer_name'],
              'role_id' => static::ROLE_NORMAL,
              'email' => $params['email'],
              'password' => $hash
         ])->execute();
-        var_dump($user);
-        die();
+    }
+
+    public static function getTenPerPage($page)
+    {
+        return self::select()
+        ->orderBy('id', 'desc')
+        ->page($page, 10)->get();
     }
 
 }

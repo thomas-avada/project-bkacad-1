@@ -44,12 +44,18 @@ $('.btn-sort').on('click', function () {
 });
 
 $('.btn-filter').on('click', function () {
-    var data = $(':input').serializeArray();
+    var data = $('main :input').not('#pagination').serializeArray();
     var prices = slider.noUiSlider.get();
     data.push({name: 'minprice', value: prices[0]});
     data.push({name: 'maxprice', value: prices[1]});
-    var url = window.location.origin + '/shop';
+    var url = window.location.pathname;
     window.location.href = addQuery(url, data);
+});
+
+$('#pagination').on('change', function () {
+    var page = $('#pagination').val();  
+    var url = window.location.href;
+    window.location.href = appendQuery(`page=${page}`);
 });
 
 $('.add-to-cart').on('click', function () {
@@ -108,3 +114,8 @@ $('.payment-method').on('click', function () {
     });
 });
 
+$('.add-wishlist-btn').on('click', function () {
+    $.post('/wishlist', {product_id: $(this).data('id')}, function(data, textStatus, xhr) {
+        location.reload();
+    });
+})

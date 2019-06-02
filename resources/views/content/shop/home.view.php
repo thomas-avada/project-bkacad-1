@@ -11,7 +11,7 @@
 					<img src="/resources/assets/img/banner001.jpg" alt="">
 					<div class="banner-caption text-center">
 						<h1 style="color: white">Get your new shoes</h1>
-						<h3 class="white-color font-weak">Up to 50% Discount</h3>
+<!-- 						<h3 class="white-color font-weak">Up to 50% Discount</h3> -->
 						<a class="primary-btn" href="/shop?keyword=&categories[]=Shoes&order=price&direction=asc&limit=9&page=1&minprice=0&maxprice=10000">Shop Now</a>
 					</div>
 				</div>
@@ -21,8 +21,10 @@
 				<div class="banner banner-1">
 					<img src="/resources/assets/img/banner002.jpg" alt="">
 					<div class="banner-caption">
-						<h1 class="primary-color">HOT DEAL<br><span class="white-color font-weak">Up to 50% OFF</span></h1>
-						<button class="primary-btn">Shop Now</button>
+						<h1 class="primary-color">Men Accessories<br>
+							<span class="white-color font-weak">Be a man</span>
+						</h1>
+						<a class="primary-btn" href="/shop?categories[]=Accessories&gender=1&order=price&direction=asc&limit=9&minprice=0&maxprice=10000">Shop Now</a>
 					</div>
 				</div>
 				<!-- /banner -->
@@ -31,8 +33,8 @@
 				<div class="banner banner-1">
 					<img src="/resources/assets/img/banner003.jpg" alt="">
 					<div class="banner-caption">
-						<h1 class="white-color">New Product <span>Collection</span></h1>
-						<button class="primary-btn">Shop Now</button>
+						<h1 class="white-color">Winter Sweater <span>Collection</span></h1>
+						<a class="primary-btn" href="/shop?categories[]=Sweater&gender=3&order=price&direction=asc&limit=9&minprice=0&maxprice=10000">Shop Now</a>
 					</div>
 				</div>
 				<!-- /banner -->
@@ -64,8 +66,8 @@
 				<div class="banner banner-2">
 					<img src="/resources/assets/img/bannerx1.jpg" alt="">
 					<div class="banner-caption">
-						<h2 class="white-color">NEW<br>COLLECTION</h2>
-						<button class="primary-btn">Shop Now</button>
+						<h2 class="white-color">NEW<br>PRODUCTS</h2>
+						<a class="primary-btn" href="/shop?order=created_at&direction=desc&limit=9">Shop Now</a>
 					</div>
 				</div>
 			</div>
@@ -77,7 +79,7 @@
 						<?php foreach ($latest_products as $product): ?>
 						<!-- Product Single -->
 						<div class="col-md-3 col-sm-6 col-xs-6">
-							<?php component('product', compact('product')); ?>
+							<?php component('product', compact('product', 'wishlists')); ?>
 						</div>
 						<!-- /Product Single -->
 						<?php endforeach ?>
@@ -102,8 +104,8 @@
 				<div class="banner banner-1">
 					<img src="/resources/assets/img/bannerx2.jpg" alt="">
 					<div class="banner-caption text-center">
-						<h1 class="primary-color">HOT DEAL<br><span class="white-color font-weak">Up to 50% OFF</span></h1>
-						<button class="primary-btn">Shop Now</button>
+						<h1 class="primary-color">New Year<br><span class="white-color font-weak">Go to store view</span></h1>
+						<a class="primary-btn" href="/shop">Shop Now</a>
 					</div>
 				</div>
 			</div>
@@ -147,7 +149,7 @@
 				<div class="section-title">
 					<h2 class="title">Best Seller</h2>
 					<div class="pull-right">
-						<div class="latest-product-slick-dots custom-dots"></div>
+						<div class="best-sellers-slick-dots custom-dots"></div>
 					</div>
 				</div>
 			</div>
@@ -155,11 +157,11 @@
 			<!-- Product Slick -->
 			<div class="col-md-12 col-sm-6 col-xs-6">
 				<div class="row">
-					<div id="latest-product-slick" class="product-slick">
+					<div id="best-sellers-slick" class="product-slick">
 						<?php foreach ($best_sellers as $product): ?>
 						<!-- Product Single -->
 						<div class="col-md-3 col-sm-6 col-xs-6">
-							<?php component('product', compact('product')); ?>
+							<?php component('product', compact('product', 'wishlists')); ?>
 						</div>
 						<!-- /Product Single -->
 						<?php endforeach ?>

@@ -40,7 +40,7 @@ class User extends Model
             flash()->error('You have failed to login!');
             return false;
         }
-        if($user['role_id'] != '1'){
+        if(!in_array($user['role_id'], [1,3])){
             flash()->error('You have failed to login!');
             return false;
         }
@@ -49,7 +49,6 @@ class User extends Model
             static::login($user);
             return true;
         }
-        
         flash()->error('You have failed to login!');
         return false;
     }
@@ -75,6 +74,33 @@ class User extends Model
              'email' => $params['email'],
              'password' => $hash
         ])->execute();
+    }
+
+    public static function adminFilter($filters, $count = false)
+    {
+        $query = static::selectColumns();
+        if(isset($filters['email'])){
+            $email = $filters['email'];
+            $query = $query->where('email', 'like', "%$email%");
+        }
+        if(isset($filters['tel'])){
+            $tel = $filters['tel'];
+            $query = $query->where('tel', 'like', "%$tel%");
+        }
+        if(isset($filters['address'])){
+            $address = $filters['address'];
+            $query = $query->where('address', 'like', "%$address%");
+        }
+        if($count){
+            if(isset($filters['order'])){
+                $direction = isset($filters['direction']) ? $filters['direction'] : 'desc';
+                $query = $query->orderBy($filters['order'], $direction);
+            }
+            $page = isset($filters['page']) ? request('page') - 1 : 0;
+            $limit = isset($filters['limit']) ? request('limit') : 10;
+            $query = $query->page($page, $limit);
+        }
+        return $query;
     }
 
     public static function getTenPerPage($page)

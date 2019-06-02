@@ -13,8 +13,10 @@
 
     <!-- aside widget -->
     <div class="aside">
-        <h3 class="aside-title">Filter by Brand</h3>
-        <ul class="list-links">
+        <h3 class="aside-title" data-toggle="collapse" data-target="#brand-filter">
+            Filter by Brand <i class="fa fa-caret-down"></i>
+        </h3>
+        <ul class="list-links <?= $brands_selected ? '' :'collapse'?>" id="brand-filter">
             <?php foreach ($brands as $brand) : ?>
                 <div class="input-radio">
                     <input
@@ -33,8 +35,10 @@
     <!-- /aside widget -->
     <!-- aside widget -->
     <div class="aside">
-        <h3 class="aside-title">Filter by Category</h3>
-        <ul class="list-links">
+        <h3 class="aside-title" data-toggle="collapse" data-target="#category-filter">
+            Filter by Category <i class="fa fa-caret-down"></i>
+        </h3>
+        <ul class="list-links <?= $categories_selected ? '' :'collapse'?>" id="category-filter">
             <?php foreach ($categories as $category) : ?>
                 <div class="input-radio">
                     <input
@@ -63,8 +67,10 @@
 
 	<!-- aside widget -->
 	<div class="aside">
-		<h3 class="aside-title">Filter by Gender</h3>
-		<ul class="list-links">
+		<h3 class="aside-title" data-toggle="collapse" data-target="#gender-filter">
+            Filter by Gender <i class="fa fa-caret-down"></i>
+        </h3>
+		<ul class="list-links <?= $gender_selected  ? '' :'collapse'?>" id="gender-filter">
 			
             <div class="input-radio">
                 <input type="radio" name="gender" value="0" <?= $gender_selected == 0 ? 'checked' : ''?>>
@@ -87,45 +93,31 @@
 	<!-- /aside widget -->
 
 	<!-- aside widget -->
-	<div class="aside">
+	<div class="aside hidden-xs">
 		<h3 class="aside-title">Top Rated Product</h3>
-		<!-- widget product -->
-		<div class="product product-widget">
-			<div class="product-thumb">
-				<img src="/resources/assets/img/thumb-product01.jpg" alt="">
-			</div>
-			<div class="product-body">
-				<h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
-				<h3 class="product-price">$32.50 <del class="product-old-price">$45.00</del></h3>
-				<div class="product-rating">
-					<i class="fa fa-star"></i>
-					<i class="fa fa-star"></i>
-					<i class="fa fa-star"></i>
-					<i class="fa fa-star"></i>
-					<i class="fa fa-star-o empty"></i>
-				</div>
-			</div>
-		</div>
-		<!-- /widget product -->
-
-		<!-- widget product -->
-		<div class="product product-widget">
-			<div class="product-thumb">
-				<img src="/resources/assets/img/thumb-product01.jpg" alt="">
-			</div>
-			<div class="product-body">
-				<h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
-				<h3 class="product-price">$32.50</h3>
-				<div class="product-rating">
-					<i class="fa fa-star"></i>
-					<i class="fa fa-star"></i>
-					<i class="fa fa-star"></i>
-					<i class="fa fa-star"></i>
-					<i class="fa fa-star-o empty"></i>
-				</div>
-			</div>
-		</div>
-		<!-- /widget product -->
+        <?php foreach ($top_rateds as $product): ?>
+        <!-- widget product -->
+        <div class="product product-widget">
+            <div class="product-thumb">
+                <a href="/products?s=<?=$product['slug']?>" >
+                    <img class="img-responsive" src="<?=$product['img'];?>" alt=''>
+                </a>
+            </div>
+            <div class="product-body">
+                <h2 class="product-name"><a href="/products?s=<?=$product['slug']?>"><?=$product['product_name']?></a></h2>
+                <h3 class="product-price"><?=currency_price($product['price'])?> 
+                   <!--  <del class="product-old-price">$45.00</del> -->
+                </h3>
+                <div class="product-rating">
+                    <?php for($i= 1; $i <= 5; $i++): ?>
+                        <i class="<?= $i <= $product['rating'] ? 'fa fa-star' : 'fa fa-star-o empty' ?>"></i>
+                    <?php endfor?>
+                </div>
+            </div>
+        </div>
+        <!-- /widget product --> 
+        <?php endforeach ?>
+		
 	</div>
 	<!-- /aside widget -->
 </div>

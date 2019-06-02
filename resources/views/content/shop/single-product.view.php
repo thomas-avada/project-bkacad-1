@@ -7,18 +7,15 @@
 		<div class="row">
 			<!--  Product Details -->
 			<div class="product product-details clearfix">
-				<?php component('product-detail', compact('product', 'review_count'));?>
+				<?php component('product-detail', compact('product', 'review_count', 'wishlists'));?>
 				<div class="col-md-12">
 					<div class="product-tab">
 						<ul class="tab-nav">
-							<li class="active"><a data-toggle="tab" href="#tab1">Product Description</a></li>
-							<li><a data-toggle="tab" href="#tab2">Reviews (<?=$review_count?>)</a></li>
+							<li class="active"><a data-toggle="tab" href="#tab1">Reviews (<?=$review_count?>)</a></li>
+							<li ><a data-toggle="tab" href="#tab2">Product Description</a></li>
 						</ul>
-						<div class="tab-content">
+						<div class="tab-content">		
 							<div id="tab1" class="tab-pane fade in active">
-								<?=$product['rich_description'] ?>
-							</div>
-							<div id="tab2" class="tab-pane fade in">
 								<div class="row">
 									<div class="col-md-6">
 										<div class="product-reviews">
@@ -33,6 +30,7 @@
 										</div>
 									</div>
 									<div class="col-md-6">
+										<?php if (session()->isLoggedIn()): ?>
 										<h4 class="text-uppercase">Write Your Review</h4>
 										<p>Your email address will not be published.</p>
 										<form class="review-form" action="/reviews" method="POST">
@@ -54,8 +52,17 @@
 											</div>
 											<button class="primary-btn" type="submit">Submit</button>
 										</form>
+										<?php else: ?>
+										<h4 class="text-uppercase">Write Your Review</h4>
+										<a href="javascript:void(0)" data-toggle="modal" data-target="#loginBackModal">Login first to leave review</a>
+
+										<?php component('modal/login-review') ?>
+										<?php endif ?>
 									</div>
 								</div>
+							</div>
+							<div id="tab2" class="tab-pane fade in ">
+								<?=$product['rich_description'] ?>
 							</div>
 						</div>
 					</div>

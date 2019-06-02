@@ -13,7 +13,7 @@
     </div>
     <div class="x_content">
       <br />
-      <form id="edit-category-form" data-parsley-validate class="form-horizontal form-label-left" method="POST" enctype='multipart/form-data' action="/admin/category/update?id=<?= $category['id'] ;?>">
+      <form id="edit-category-form" data-parsley-validate class="form-horizontal form-label-left" method="POST" enctype='multipart/form-data' action="/admin/category/update">
         <input type="hidden" name="id"  value="<?= $category['id'] ;?>">
         <div class="form-group">
           <label class="control-label col-md-3 col-sm-3 col-xs-12" for="product-name">Category name<span class="required">*</span>
@@ -27,11 +27,10 @@
           <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
             <a class="btn btn-primary" type="button" href="<?= $back; ?>">Back</a>
             <button class="btn btn-primary" type="reset">Reset</button>
+            <a class="btn btn-primary" type="button" href="/admin/category/delete?id=<?=$category['id']?>">Delete</a>
             <button class="btn btn-primary"
-                onclick="event.preventDefault();
-                document.getElementById('edit-category-form').setAttribute('action', '/admin/category/update?back=1');
-                document.getElementById('edit-category-form').submit();
-            ">
+                onclick="
+                document.getElementById('edit-category-form').setAttribute('action', '/admin/category/update?back=1');            ">
               Edit and continue
             </button>
             <button type="submit" class="btn btn-success">Save</button>

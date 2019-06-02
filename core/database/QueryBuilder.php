@@ -20,9 +20,13 @@ class QueryBuilder
     public function create()
     {
         $connection = $this->conn;
+        // $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return new Builder('mysql', function($query, $queryString, $queryParameters) use ($connection)
         {
+            // dd($queryParameters);
+            // dd($queryString);
             $statement = $connection->prepare($queryString);
+
             $statement->execute($queryParameters);
 
             // when the query is fetchable return all results and let hydrahon do the rest
@@ -31,11 +35,14 @@ class QueryBuilder
                 return $statement->fetchAll(\PDO::FETCH_ASSOC);
             }
             if(get_class($query) == "ClanCats\Hydrahon\Query\Sql\Update" || 
-            get_class($query) == "ClanCats\Hydrahon\Query\Sql\Delete"){
+                get_class($query) == "ClanCats\Hydrahon\Query\Sql\Delete"){
                 return $statement->rowCount();
             }
             if(get_class($query) == "ClanCats\Hydrahon\Query\Sql\Insert"){
-                return $this->conn->lastInsertId();
+                if(!$connection->lastInsertId()){
+                    return $statement->rowCount();
+                }
+                return $connection->lastInsertId();
             }
             
         });

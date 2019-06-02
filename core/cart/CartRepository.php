@@ -42,6 +42,10 @@ use App\Core\Cart\CartItem;
  		if(!array_key_exists($key, $this->items)){
  			return $this;
  		}
+        if($qty == 0){
+            unset($this->items[$key]);
+            return $this;
+        }
  		$this->items[$key]->setQty($qty);
  	}
 

@@ -10,8 +10,18 @@ class SearchController
 	{
 		//SELECT * FROM products WHERE product_name LIKE "%$keyword%"
 		$keyword = request('keyword');
-		$products = Product::select()->where('product_name', 'like', "%$keyword%")->get();
+		$page = request()->has('page') ? request('page') - 1 : 0;
+		$products = Product::select()->where('product_name', 'like', "%$keyword%")->page($page, 4)->get();
 		$count = Product::select()->where('product_name', 'like', "%$keyword%")->count();
-		return view('search-result', compact('products', 'count'));
+		$pagination = [
+            'last' => ceil($count / 4)
+        ];
+		return view('search-result', [
+			'products' => $products, 
+			'count' => $count,
+			'keyword' => $keyword,
+			'pagination' => $pagination,
+			'page' => request('page') ? request('page') : 1
+		]);
 	}
 }

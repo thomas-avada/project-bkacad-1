@@ -152,6 +152,32 @@ if(!function_exists('currency_price')){
     }
 }
 
+if(!function_exists('order_status')){
+    /**
+     * @param null $key
+     * @return mixed
+     */
+    function order_status($status)
+    {
+        switch ($status) {
+            case 0:
+                return 'Pending';
+                break;
+            case 1:
+                return 'Processing';
+                break;
+            case 2:
+                return 'Completed';
+                break;
+            case 3:
+                return 'Cancelled';
+                break;
+        }
+    }
+}
+
+
+
 /* =========================================Relationship Helpers===================================*/
 
 if(!function_exists('oneToMany')){

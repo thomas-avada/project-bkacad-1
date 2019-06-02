@@ -1,4 +1,3 @@
-            
 <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="x_panel">
     <div class="x_title">
@@ -28,8 +27,8 @@
             <textarea id="description" class="resizable_textarea form-control" name="description"><?= $product['description']; ?></textarea>
           </div>
         </div>
-   <!--      <div class="form-group">
-          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="description">Description</label>
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="description">Rich Description</label>
           <div class="col-md-6 col-sm-6 col-xs-12">
             <div id="alerts"></div>
             <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor-one">
@@ -89,12 +88,6 @@
                 </div>
                 <a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
               </div>
-
-              <div class="btn-group">
-                <a class="btn" title="Insert picture (or just drag & drop)" id="pictureBtn"><i class="fa fa-picture-o"></i></a>
-                <input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" />
-              </div>
-
               <div class="btn-group">
                 <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
                 <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
@@ -111,7 +104,7 @@
             </script>
             <div class="ln_solid"></div>
           </div>
-        </div> -->
+        </div>
         <div class="form-group">
           <label class="control-label col-md-3 col-sm-3 col-xs-12">Category</label>
           <div class="col-md-6 col-sm-6 col-xs-12">
@@ -190,19 +183,18 @@
         <div class="form-group">
           <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
             <a class="btn btn-primary" type="button" href="<?= $back; ?>">Back</a>
+            <a class="btn btn-primary btn-Delete" type="button" href="/admin/product/delete?id=<?=$product['product_id']?>">Delete</a>
             <button class="btn btn-primary" type="reset">Reset</button>
             <button class="btn btn-primary"
-                onclick="event.preventDefault();
-                // document.getElementById('rich_description').innerHTML = document.getElementById('editor-one').innerHTML;
+                onclick="
+                document.getElementById('rich_description').innerHTML = document.getElementById('editor-one').innerHTML;
                 document.getElementById('edit-product-form').setAttribute('action', '/admin/product/update?back=1');
-                document.getElementById('edit-product-form').submit();
             ">
               Edit and continue
             </button>
             <button type="submit" class="btn btn-success" 
-            onclick="event.preventDefault();
-            // document.getElementById('rich_description').innerHTML = document.getElementById('editor-one').innerHTML;
-            document.getElementById('edit-product-form').submit();
+            onclick="
+            document.getElementById('rich_description').innerHTML = document.getElementById('editor-one').innerHTML;
             ">Save
             </button>
           </div>

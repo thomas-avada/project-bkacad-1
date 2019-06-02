@@ -3,7 +3,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="section-title">
-				<h4 class="title">Order ID: #<?=$order['order_id']?> - <?=$order['invoiced'] ? 'Complete' : 'Processing' ?></h4>
+				<h4 class="title">Order ID: #<?=$order['order_id']?> - <?=order_status($order['status']) ?></h4>
 			</div>
 			<div class="row">
 				<div class="col-md-4">

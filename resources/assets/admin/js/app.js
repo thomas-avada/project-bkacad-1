@@ -24,12 +24,17 @@ function appendQuery(query) {
 setTimeout(function(){
     $('#alert-box').slideUp(1000);
 }, 3000);
+//Datepicker
+$('.datepicker').datepicker({
+    dateFormat: 'yy-mm-dd',
+});
 
 //Pagination
 
 $('#pagination').on('change', function (argument) {
-	var page = $(this).val();
-	window.location.href = appendQuery('page='+page);
+	var data = $(':input').serializeArray();
+    var url = location.origin + location.pathname;
+    location.href = addQuery(url, data);
 })
 
 
@@ -86,3 +91,12 @@ $('.file-input').on('change', function() {
         }
     }
 });
+
+$('.btn-Delete').on('click', function(){
+    return confirm('Do you really want to delete this?');
+})
+
+$('table').DataTable({
+    "lengthChange": false
+});
+

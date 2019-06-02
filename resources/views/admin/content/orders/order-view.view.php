@@ -44,7 +44,7 @@
             <!-- info row -->
             <div class="row invoice-info">
               <div class="col-sm-4 invoice-col">
-                <h4>Shipping Information</h4>
+                <h4>Shipping Information <?=$order['shipped'] ? '(Shipped)': '' ?></h4>
                 <strong>Shipping Method: </strong><?= $order['shipping_method'] ?>
                 <br><strong><?= $order['shipping_firstname'] ?> <?= $order['shipping_lastname'] ?></strong>
                 <br><?= $order['shipping_address']?>
@@ -54,7 +54,7 @@
               </div>
               <!-- /.col -->
               <div class="col-sm-4 invoice-col">
-                <h4>Billing Information</h4>
+                <h4>Billing Information <?=$order['invoiced'] ? '(Invoiced)': '' ?></h4>
                 <strong>Payment Method: </strong><?= $order['payment_method'] ?>
                 <br><strong><?= $order['billing_firstname'] ?> <?= $order['billing_lastname'] ?></strong>
                 <br><?= $order['billing_address']?>
@@ -65,7 +65,7 @@
               <!-- /.col -->
               <div class="col-sm-4 invoice-col">
                 <div style="font-size: 24px">
-                  <b >Status:</b> <?=!$order['invoiced'] ? 'Processing' : 'Invoiced' ?>
+                  <b >Status:</b> <?=order_status($order['status']) ?>
                 </div>
               </div>
               <!-- /.col -->
@@ -102,7 +102,6 @@
 
             <div class="row">
               <div class="col-xs-6 col-xs-push-6">
-                <p class="lead">Amount Due 2/22/2014</p>
                 <div class="table-responsive">
                   <table class="table">
                     <tbody>
@@ -131,16 +130,30 @@
               <div class="col-xs-12">
             <!--     <button class="btn btn-default">Submit Order</button>
                 <button class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment</button> -->
-                <?php if(!$order['invoiced']): ?>
+                
+                <?php if($order['status'] < 2): ?>
                 <button class="btn btn-primary pull-right" style="margin-right: 5px;"
                   onclick="event.preventDefault();
                   document.getElementById('invoice-form').submit();"
-                  >
-
+                >Invoice</button>
+                <button class="btn btn-primary pull-right" style="margin-right: 5px;"
+                  onclick="event.preventDefault();
+                  document.getElementById('shipment-form').submit();"
+                >Ship</button>
+                <button class="btn btn-primary pull-right" style="margin-right: 5px;"
+                  onclick="event.preventDefault();
+                  document.getElementById('cancel-form').submit();"
+                >Cancel</button> 
+                <form id="cancel-form" action="/admin/order/cancel" method="POST" style="display: none;">
+                    <input type="hidden" name="order_id" value="<?=$order['order_id']?>">
+                </form>
                 <form id="invoice-form" action="/admin/order/invoice" method="POST" style="display: none;">
                     <input type="hidden" name="order_id" value="<?=$order['order_id']?>">
                 </form>
-                  <i class="fa fa-download"></i> Submit Order
+                <form id="shipment-form" action="/admin/order/ship" method="POST" style="display: none;">
+                    <input type="hidden" name="order_id" value="<?=$order['order_id']?>">
+                </form>
+                  
                 <?php endif; ?>
               </div>
             </div>

@@ -6,5 +6,4 @@
         <h3 class="product-price"><?=currency_price($item->getPrice());?><span class="qty">x<?=$item->getQty();?></span></h3>
         <h2 class="product-name"><a href="/products?s=<?=$item->getOption('slug')?>"><?=$item->getName();?></a></h2>
     </div>
-    <button class="cancel-btn"><i class="fa fa-trash"></i></button>
 </div>

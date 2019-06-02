@@ -21,7 +21,7 @@ class Category extends Model
     	return self::delete()->where('id', $id)->execute();
     }
 
-    public function loadForEdit($id)
+    public static function loadForEdit($id)
     {
     	// dd($id);
     	return self::select()

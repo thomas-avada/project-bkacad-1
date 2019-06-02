@@ -10,15 +10,31 @@ class CustomerController
 	public function dashboard()
 	{
 		$user = User::select()->where('id', auth()['id'])->one();
-		$orders = Order::getCustomerGrid();
-		return view('customer-dashboard', compact('user', 'orders'));
+		$orders = Order::getCustomerGrid()->get();
+		$count = Order::getCustomerGrid()->count();
+		$pagination = [
+            'last' => ceil($count / 10)
+        ];
+		return view('customer-dashboard', [
+			'user' => $user, 
+			'orders' => $orders, 
+			'pagination' => $pagination,
+			'page' => request('page') ? request('page') : 1 
+		]);
 	}
 
 	public function orders()
 	{
-		$orders = Order::getCustomerGrid();
-		// dd($orders);
-		return view('customer-orders', compact('orders'));
+		$orders = Order::getCustomerGrid()->get();
+		$count = Order::getCustomerGrid()->count();
+		$pagination = [
+            'last' => ceil($count / 10)
+        ];
+		return view('customer-orders', [
+			'orders' => $orders,
+			'pagination' => $pagination,
+			'page' => request('page') ? request('page') : 1 
+		]);
 	}
 
 	public function orderView()
@@ -26,7 +42,7 @@ class CustomerController
 		$order = Order::loadForCustomerView();
 		$products = OrderDetail::select()
 		->where('order_id', request('id'))
-		->join('products', 'order_details.product_id', '=', 'products.id')
+		// ->join('products', 'order_details.product_id', '=', 'products.id')
 		->get();
 		return view('customer-order', compact('order', 'products'));
 	}
@@ -41,6 +57,13 @@ class CustomerController
 	{
 		$updated = User::update(request()->all())->where('id', auth()['id'])->execute();
 		if($updated){
+			$user = User::select()->find(auth()['id']);
+			$user = array_diff_key($user, [
+	            'password' => '',
+	            'remember_token' => '',
+	            'settings' => ''
+	        ]);
+	        session()->set('customer', $user);
 			flash()->success('Your information has been updated successfully');
 			return redirect()->back();
 		}

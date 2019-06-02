@@ -12,7 +12,7 @@
     </div>
     <div class="x_content">
       <br />
-      <form id="new-brand-form" data-parsley-validate class="form-horizontal form-label-left" method="POST" enctype='multipart/form-data' action="/admin/brands">
+      <form id="new-brand-form" class="form-horizontal form-label-left" method="POST" enctype='multipart/form-data' action="/admin/brands">
         <div class="form-group">
           <label class="control-label col-md-3 col-sm-3 col-xs-12" for="product-name">Brand name<span class="required">*</span>
           </label>
@@ -27,9 +27,8 @@
             <a class="btn btn-primary" type="button" href="<?=$back;?>">Back</a>
             <button class="btn btn-primary" type="reset">Reset</button>
             <button class="btn btn-primary"
-                onclick="event.preventDefault();
+                onclick="
                 document.getElementById('new-brand-form').setAttribute('action', '/admin/brands?back=1');
-                document.getElementById('new-brand-form').submit();
             ">
               Create and continue
             </button>

@@ -30,11 +30,15 @@
 <div class="col-md-6">
 	<div class="product-body">
 		<div class="product-label">
-			<span>New</span>
-			<span class="sale">-20%</span>
+			<?php
+                if(Carbon\Carbon::now()->subweek() < new DateTime($product['created_at'])){
+                    echo "<span>New</span>";
+                }
+            ?> 
+	<!-- 		<span class="sale">-20%</span> -->
 		</div>
 		<h2 class="product-name"><?=$product['product_name'];?></h2>
-		<h3 class="product-price">$<?=$product['price'];?></h3>
+		<h3 class="product-price"><?=currency_price($product['price']);?></h3>
 		<div>
 			<div class="product-rating">
 			<?php for($i= 1; $i <= 5; $i++): ?>
@@ -49,7 +53,7 @@
 		<p><strong>Brand:</strong> <?= $product['brand_name'];?></p>
 		<p><strong>Category:</strong> <?= $product['category_name'];?></p>
 		<p><?=$product['description']?></p>
-		<div class="product-options">
+<!-- 		<div class="product-options">
 			<ul class="size-option">
 				<li><span class="text-uppercase">Size:</span></li>
 				<li class="active"><a href="#">S</a></li>
@@ -63,7 +67,7 @@
 				<li><a href="#" style="background-color:#BF6989;"></a></li>
 				<li><a href="#" style="background-color:#9A54D8;"></a></li>
 			</ul>
-		</div>
+		</div> -->
 
 		<div class="product-btns">
 			<div class="qty-input">
@@ -78,11 +82,16 @@
             >
                 <i class="fa fa-shopping-cart"></i> Add to Cart
             </button>
-			<div class="pull-right">
-				<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
-				<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-				<button class="main-btn icon-btn"><i class="fa fa-share-alt"></i></button>
+            <?php if (session()->isLoggedIn()): ?>
+            <div class="pull-right">
+				<button class="main-btn icon-btn add-wishlist-btn <?=in_array($product['product_id'], $wishlists) ? 'active': ''?>"
+	            data-id="<?=$product['product_id']?>"
+	            >
+	                <i class="fa fa-heart"></i>
+	            </button>
 			</div>
+            <?php endif ?>
+			
 		</div>
 	</div>
 </div>

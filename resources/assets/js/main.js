@@ -69,15 +69,15 @@ $('#latest-product-slick').slick({
   ]
 });
 
-$('#product-slick-2').slick({
-  slidesToShow: 3,
+$('#best-sellers-slick').slick({
+  slidesToShow: 4,
   slidesToScroll: 2,
   autoplay: true,
   infinite: true,
   speed: 300,
   dots: true,
   arrows: false,
-  appendDots: '.product-slick-dots-2',
+  appendDots: '.best-sellers-slick-dots',
   responsive: [{
       breakpoint: 991,
       settings: {

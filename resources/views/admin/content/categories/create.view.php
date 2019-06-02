@@ -27,9 +27,8 @@
             <a class="btn btn-primary" type="button" href="<?=$back;?>">Back</a>
             <button class="btn btn-primary" type="reset">Reset</button>
             <button class="btn btn-primary"
-                onclick="event.preventDefault();
+                onclick="
                 document.getElementById('new-category-form').setAttribute('action', '/admin/categories?back=1');
-                document.getElementById('new-category-form').submit();
             ">
               Create and continue
             </button>

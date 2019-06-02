@@ -58,6 +58,15 @@ class Router
 					return redirect()->toRoute('admin/login');
 				}
 			}
+			if($controllerInstance instanceof \App\Controllers\CustomerController
+				|| $controllerInstance instanceof \App\Controllers\WishlistController
+				|| $controllerInstance instanceof \App\Controllers\CheckoutController
+			){
+				if(!session()->isLoggedIn()){
+					flash()->error('You need to login first before entering this section');
+					return redirect()->home();
+				}
+			}
 			$controllerInstance->$action();
 		}
 		else{

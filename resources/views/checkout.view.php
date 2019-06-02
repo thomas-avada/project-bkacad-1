@@ -15,6 +15,10 @@
 	<!-- NAVIGATION -->
 	<?php include 'partials/nav.view.php';?>
 	<!-- /NAVIGATION -->
+
+	<!-- Alert box -->
+	<?php include 'partials/alert.view.php'; ?>
+	<!--/Alert box -->
 	
 	<!-- section -->
 	<div class="section">
@@ -103,7 +107,6 @@
 
 	<!-- jQuery Plugins -->
 	<?php include 'partials/script.view.php'; ?>
-
 </body>
 
 </html>

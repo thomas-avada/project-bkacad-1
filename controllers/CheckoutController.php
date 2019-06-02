@@ -3,12 +3,16 @@ namespace App\Controllers;
 
 use App\Core\Facade\Cart;
 use App\Core\Facade\Total;
-use App\Model\{Order, Shipping, Billing, OrderDetail};
+use App\Model\Order;
+use App\Model\Shipping;
+use App\Model\Billing;
+use App\Model\OrderDetail;
 use App\Core\Container;
 use App\Core\Database\Connection;
 use App\Model\User;
 use App\Model\ShippingMethod;
 use App\Model\PaymentMethod;
+use App\Core\Facade\Validator;
 
 class CheckoutController
 {
@@ -53,6 +57,35 @@ class CheckoutController
 
 	public function store()
 	{
+        $rules = [
+            'shipping.email'  => 'required|email',
+            'shipping.firstname' => 'required',
+            'shipping.lastname' => 'required',
+            'shipping.address' => 'required',
+            'shipping.city' => 'required',
+            'shipping.country' => 'required',
+            'shipping.tel' => 'required',
+        ];
+        if(!request('is_the_same')){
+            $rules = array_merge($rules, [
+                'billing.email'  => 'required|email',
+                'billing.firstname' => 'required',
+                'billing.lastname' => 'required',
+                'billing.address' => 'required',
+                'billing.city' => 'required',
+                'billing.country' => 'required',
+                'billing.tel' => 'required',
+            ]);
+        }
+        $validation = Validator::make(request()->all(), $rules);
+        $validation->validate();
+        
+        if ($validation->fails()) {
+            flash()->error($validation->errors()->all());
+            return redirect()->back();
+        }
+
+
 		$shipping_id = Shipping::insert(request('shipping'))->execute();
 		if(request('is_the_same')){
 			$billing_id = Billing::insert(request('shipping'))->execute();
@@ -69,12 +102,13 @@ class CheckoutController
             'shipping_method_id' => request('shipping_method'),
             'payment_method_id' => request('payment_method')
         ])->execute();
-
         foreach (Cart::all() as $item){
             OrderDetail::insert([
                 'product_id' => $item->getId(),
                 'order_id' => $order_id,
-                'quantity' => $item->getQty()
+                'item_qty' => $item->getQty(),
+                'product_name' => $item->getName(),
+                'price' => $item->getPrice()
             ])->execute();
         }
         Cart::destroy();

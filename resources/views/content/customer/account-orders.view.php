@@ -24,7 +24,7 @@
 				        <td><?=$order['shipping_firstname']?> <?=$order['shipping_lastname']?></td>
 				        <td><?=$order['billing_firstname']?> <?=$order['billing_lastname']?></td>
 				        <td><?=currency_price($order['grand_total'])?></td>
-				        <td><?=$order['invoiced'] ? 'Complete' : 'Processing' ?></td>
+				        <td><?=order_status($order['status']) ?></td>
 				        <td><?=$order['created_at']?></td>
 				        <td><a href="/customer/order?id=<?=$order['order_id']?>">
 				        	View
@@ -33,6 +33,7 @@
 			    <?php endforeach ?>
 			    </tbody>
 			  </table>
+			  <?php component('pagination', compact('pagination', 'page'));?>
 		</div>
 	</div>
 

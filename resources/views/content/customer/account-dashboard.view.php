@@ -68,6 +68,7 @@
 			    <?php endforeach ?>
 			    </tbody>
 			  </table>
+			  <?php component('pagination', compact('pagination', 'page'));?>
 		</div>
 	</div>
 

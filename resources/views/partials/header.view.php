@@ -6,7 +6,6 @@ if(session()->isLoggedIn()){
 
 ?>
 <header>
-
     <!-- header -->
     <div id="header">
         <div class="container">
@@ -23,11 +22,6 @@ if(session()->isLoggedIn()){
                 <div class="header-search">
                     <form action="/search" method="GET">
                         <input class="input search-input" name="keyword" type="text" placeholder="Enter your keyword">
-                        <select class="input search-categories">
-                            <option value="0">All Categories</option>
-                            <option value="1">Category 01</option>
-                            <option value="1">Category 02</option>
-                        </select>
                         <button class="search-btn"><i class="fa fa-search"></i></button>
                     </form>
                 </div>
@@ -44,13 +38,9 @@ if(session()->isLoggedIn()){
                             </div>
                             <strong class="text-uppercase">My Account <i class="fa fa-caret-down"></i></strong>
                         </div>
-                        <a href="/login" class="text-uppercase">Login</a> / <a href="/register" class="text-uppercase">Join</a>
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#loginModal" class="text-uppercase">Login</a> / <a href="javascript:void(0)" data-toggle="modal" data-target="#registerModal" class="text-uppercase">Join</a>
                         <ul class="custom-menu">
-                            <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
-                            <li><a href="#"><i class="fa fa-heart-o"></i> My Wishlist</a></li>
-                            <li><a href="#"><i class="fa fa-exchange"></i> Compare</a></li>
-                            <li><a href="#"><i class="fa fa-check"></i> Checkout</a></li>
-                            <li><a href="/login"><i class="fa fa-unlock-alt"></i> Login</a></li>
+                            <li><a href="javascript:void(0)" data-toggle="modal" data-target="#loginModal"><i class="fa fa-unlock-alt"></i> Login</a></li>
                             <li><a href="/register"><i class="fa fa-user-plus"></i> Create An Account</a></li>
                         </ul>
 
@@ -65,16 +55,13 @@ if(session()->isLoggedIn()){
                         <form id="logout-form" action="/logout" method="POST" style="display: none;">
                         </form>
                         <ul class="custom-menu">
-                            <li><a href="/customer/dashboard"><i class="fa fa-user-o"></i><?= session()->customer()['firstname'];?></a></li>
-                            <li><a href="#"><i class="fa fa-heart-o"></i> My Wishlist</a></li>
-                            <li><a href="#"><i class="fa fa-exchange"></i> Compare</a></li>
-                            <li><a href="#"><i class="fa fa-check"></i> Checkout</a></li>
-                            <li><a href="/login"><i class="fa fa-unlock-alt"></i> Login</a></li>
-                            <li><a href="/register"><i class="fa fa-user-plus"></i> Create An Account</a></li>
+                            <li><a href="/customer/dashboard"><i class="fa fa-user-o"></i>My Account</a></li>
+                            <li><a href="/wishlist"><i class="fa fa-heart-o"></i> My Wishlist</a></li>
+                            <li><a href="/checkout"><i class="fa fa-check"></i> Checkout</a></li>
                             <li><a href="/logout" class="text-uppercase""
-                           onclick="event.preventDefault();
-                                         document.getElementById('logout-form').submit();">
-                            Logout
+                               onclick="event.preventDefault();
+                                             document.getElementById('logout-form').submit();">
+                                Logout
                             </a></li>
                         </ul>
                         <?php endif ?>
@@ -126,3 +113,5 @@ if(session()->isLoggedIn()){
     </div>
     <!-- container -->
 </header>
+<?php component('modal/login') ?>
+<?php component('modal/register') ?>

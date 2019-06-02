@@ -16,6 +16,7 @@ $router->get([
     'customer/info' => 'CustomerController@info',
     'customer/orders' => 'CustomerController@orders',
     'customer/order' => 'CustomerController@orderView',
+    'wishlist' => 'WishlistController@index',
 
     'checkout/cart' => 'CheckoutController@cart',
     'checkout/success' => 'CheckoutController@success',
@@ -51,6 +52,19 @@ $router->get([
     // 'admin/brand/edit' => 'Admin\BrandController@edit',
 
     'admin/customers' => 'Admin\CustomerController@index',
+    'admin/customer/view' => 'Admin\CustomerController@show',
+    'admin/customer/create' => 'Admin\CustomerController@create',
+    // 'admin/customer/delete' => 'Admin\CustomerController@delete',
+    // 
+    'admin/payment-methods' => 'Admin\PaymentMethodController@index',
+    'admin/payment-method/create' => 'Admin\PaymentMethodController@create',
+    'admin/payment-method/delete' => 'Admin\PaymentMethodController@delete',
+    'admin/payment-method/edit' => 'Admin\PaymentMethodController@edit',
+
+    'admin/shipping-methods' => 'Admin\ShippingMethodController@index',
+    'admin/shipping-method/create' => 'Admin\ShippingMethodController@create',
+    'admin/shipping-method/delete' => 'Admin\ShippingMethodController@delete',
+    'admin/shipping-method/edit' => 'Admin\ShippingMethodController@edit',
 
     'admin/configuration/currency' => 'Admin\ConfigController@currency'
 ]);
@@ -59,8 +73,13 @@ $router->post([
     'loginPost' => 'AuthController@loginPost',
     'logout' => 'AuthController@logout',
     'registerPost' => 'AuthController@registerPost',
+    'password/change' => 'AuthController@changePwd',
+
+    'test' => 'TestController@index',
 
     'cart/add' => 'CartController@add',
+
+    'wishlist' => 'WishlistController@store',
 
     'shipping-methods/update' => 'CheckoutController@updateShipping',
     'payment-method/update' => 'CheckoutController@updatePayment',
@@ -79,7 +98,18 @@ $router->post([
     'admin/brands' => 'Admin\BrandController@store',
     'admin/brand/update' => 'Admin\BrandController@update',
 
+    'admin/customer/update' => 'Admin\CustomerController@update',
+    'admin/customers' => 'Admin\CustomerController@store',
+
     'admin/order/invoice' => 'Admin\OrderController@invoice',
+    'admin/order/ship' => 'Admin\OrderController@ship',
+    'admin/order/cancel' => 'Admin\OrderController@cancel',
+
+    'admin/shipping-methods' => 'Admin\ShippingMethodController@store',
+    'admin/shipping-method/update' => 'Admin\ShippingMethodController@update',
+
+    'admin/payment-methods' => 'Admin\PaymentMethodController@store',
+    'admin/payment-method/update' => 'Admin\PaymentMethodController@update',
 
     'reviews' => 'ReviewController@store',
 

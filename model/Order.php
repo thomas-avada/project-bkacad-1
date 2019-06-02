@@ -22,6 +22,7 @@ class Order extends Model
 			'billings.address as billing_address',
 			'billings.tel as billing_tel',
 			'orders.grand_total',
+			'orders.status',
 			'orders.created_at',
 			'orders.updated_at'
 		])
@@ -42,6 +43,7 @@ class Order extends Model
 			'billings.address as billing_address',
 			'billings.tel as billing_tel',
 			'orders.grand_total',
+			'orders.status',
 			'orders.created_at',
 			'orders.updated_at'
 		])
@@ -50,7 +52,7 @@ class Order extends Model
 		->get();
 	}
 
-	public function loadForView()
+	public static function loadForView()
 	{
 		return self::select([
 			'orders.id as order_id',
@@ -74,6 +76,8 @@ class Order extends Model
 			'orders.created_at',
 			'orders.updated_at',
 			'orders.invoiced',
+			'orders.shipped',
+			'orders.status',
 			'shipping_methods.display_name as shipping_method',
 			'payment_methods.display_name as payment_method'
 
@@ -86,8 +90,9 @@ class Order extends Model
 		->one();
 	}
 
-	public function getCustomerGrid()
+	public static function getCustomerGrid()
 	{
+		$page = request()->has('page') ? request('page') - 1 : 0;
 		return self::select([
 			'orders.id as order_id',
 			'shippings.firstname as shipping_firstname',
@@ -103,16 +108,19 @@ class Order extends Model
 			'orders.subtotal',
 			'orders.grand_total',
 			'orders.invoiced',
+			'orders.shipped',
+			'orders.status',
 			'orders.created_at',
 			'orders.updated_at'
 		])
 		->where('user_id', auth()['id'])
 		->join('shippings', 'shippings.id', "=", 'orders.shipping_id')
 		->join('billings', 'billings.id', "=", 'orders.billing_id')
-		->get();
+		->orderBy('orders.created_at', 'DESC')
+		->page($page, 10);
 	}
 
-	public function loadForCustomerView()
+	public static function loadForCustomerView()
 	{
 		return self::select([
 			'orders.id as order_id',
@@ -136,6 +144,8 @@ class Order extends Model
 			'orders.created_at',
 			'orders.updated_at',
 			'orders.invoiced',
+			'orders.shipped',
+			'orders.status',
 			'shipping_methods.display_name as shipping_method',
 			'payment_methods.display_name as payment_method'
 		])
@@ -147,5 +157,35 @@ class Order extends Model
 		->join('payment_methods', 'payment_methods.id', '=', 'orders.payment_method_id')
 		->one();
 	}
+
+	public static function adminFilter($filters, $count = false)
+    {
+        $query = static::selectColumns();
+        if(isset($filters['maxgrand']) && $filters['maxgrand'] != ''){
+            $query = $query->where('grand_total', '<', $filters['maxgrand']);
+        }
+        if(isset($filters['mingrand']) && $filters['mingrand'] != ''){
+            $query = $query->where('grand_total', '>', $filters['mingrand']);
+        }
+        if(isset($filters['status']) && $filters['status'] != ''){
+            $query = $query->where('orders.status',  $filters['status']);
+        }
+        if(isset($filters['created_at_from']) && $filters['created_at_from'] != ''){
+            $query = $query->where('orders.created_at', '>=', $filters['created_at_from']);
+        }
+        if(isset($filters['created_at_to']) && $filters['created_at_to'] != ''){
+            $query = $query->where('orders.created_at', '<=', $filters['created_at_to']);
+        }
+        if(!$count){
+            if(isset($filters['order'])){
+                $direction = isset($filters['direction']) ? $filters['direction'] : 'desc';
+                $query = $query->orderBy($filters['order'], $direction);
+            }
+            $page = isset($filters['page']) ? request('page') - 1 : 0;
+            $limit = isset($filters['limit']) ? request('limit') : 10;
+            $query = $query->page($page, $limit);
+        }
+        return $query;
+    }
 	
 }

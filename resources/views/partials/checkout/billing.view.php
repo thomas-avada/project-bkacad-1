@@ -7,27 +7,27 @@
 		<h3 class="title">Billing Details</h3>
 	</div>
 	<div class="form-group">
-		<input class="input" type="text" name="billing[firstname]" placeholder="First Name">
+		<input class="input" type="text" name="billing[firstname]" placeholder="First Name" required>
 	</div>
 	<div class="form-group">
-		<input class="input" type="text" name="billing[lastname]" placeholder="Last Name">
+		<input class="input" type="text" name="billing[lastname]" placeholder="Last Name" required>
 	</div>
 	<div class="form-group">
-		<input class="input" type="email" name="billing[email]" placeholder="Email">
+		<input class="input" type="email" name="billing[email]" placeholder="Email" required>
 	</div>
 	<div class="form-group">
-		<input class="input" type="text" name="billing[address]" placeholder="Address">
+		<input class="input" type="text" name="billing[address]" placeholder="Address" required>
 	</div>
 	<div class="form-group">
-		<input class="input" type="text" name="billing[city]" placeholder="City">
+		<input class="input" type="text" name="billing[city]" placeholder="City" required>
 	</div>
 	<div class="form-group">
-		<input class="input" type="text" name="billing[country]" placeholder="Country">
+		<input class="input" type="text" name="billing[country]" placeholder="Country" required>
 	</div>
 	<div class="form-group">
 		<input class="input" type="text" name="billing[zip_code]" placeholder="ZIP Code">
 	</div>
 	<div class="form-group">
-		<input class="input" type="text" name="billing[tel]" placeholder="Telephone">
+		<input class="input" type="text" name="billing[tel]" placeholder="Telephone" required>
 	</div>
 </div>

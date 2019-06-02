@@ -24,6 +24,8 @@
             </a>
             <ul class="nav child_menu">
               <li><a href="/admin/configuration/currency">Currency Configuration</a></li>
+              <li><a href="/admin/shipping-methods">Shipping Methods</a></li>
+              <li><a href="/admin/payment-methods">Payment Methods</a></li>
             </ul>
           </li>
         </ul>

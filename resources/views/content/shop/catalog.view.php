@@ -17,7 +17,7 @@
         <?php foreach ($products as $product): ?>
             <!-- Product Single -->
             <div class="col-md-4 col-sm-6 col-xs-6">
-                <?php component('product', compact('product')); ?>
+                <?php component('product', compact('product', 'wishlists')); ?>
             </div>
             <!-- /Product Single -->
         <?php endforeach ?> 

@@ -29,7 +29,7 @@ class Product extends Model
 		->page($page, 10)->get();
     }
 
-    public function loadForEdit($id)
+    public static function loadForEdit($id)
     {
     	// dd($id);
     	return self::select([
@@ -58,10 +58,22 @@ class Product extends Model
     {
     	return self::delete()->where('id', $id)->execute();
     }
-
-    public static function shopFilter($filters)
+    
+    public static function shopFilter($filters, $count = false)
     {
-        $query = self::select();
+        $query = self::select([
+            'products.id',
+            'products.slug',
+            'products.product_name',
+            'products.price',
+            'products.img',
+            'products.created_at',
+        ]);
+        if(!$count){
+            $query = $query->addField(new F('avg', 'reviews.votes'), 'rating')
+            ->leftJoin('reviews', 'reviews.product_id', '=', 'products.id');
+        }
+
         if(isset($filters['brands'])){
             $brand_ids = array_column(
                 Brand::select()->whereIn('brand_name', $filters['brands'])->get(),
@@ -86,6 +98,11 @@ class Product extends Model
             $query = $query->where('price', '>', $filters['minprice'] *1000);
         }
 
+        if(!$count){
+            $query = $query->groupBy('products.id');
+        }
+        
+
         if(isset($filters['order'])){
             $direction = isset($filters['direction']) ? $filters['direction'] : 'desc';
             $query = $query->orderBy($filters['order'], $direction);
@@ -97,7 +114,7 @@ class Product extends Model
         return $query;
     }
 
-    public function selectToShow($slug)
+    public static function selectToShow($slug)
     {
         return self::select([
             'products.id as product_id',
@@ -142,36 +159,100 @@ class Product extends Model
         ->join('categories', 'categories.id', '=', 'products.category_id');
     }
 
-    public function getLatestProducts()
+    public static function adminFilter($filters, $count = false)
+    {
+        $query  = self::selectColumns();
+        
+        if(isset($filters['product_name'])){
+            $name = $filters['product_name'];
+            $query = $query->where('product_name', 'like', "%$name%");
+        }
+        if(isset($filters['maxprice']) && $filters['maxprice'] != ''){
+            $query = $query->where('price', '<', $filters['maxprice']);
+        }
+        if(isset($filters['minprice']) && $filters['minprice'] != ''){
+            $query = $query->where('price', '>', $filters['minprice']);
+        }
+        if(isset($filters['maxqty']) && $filters['maxqty'] != ''){
+            $query = $query->where('quantity', '<', $filters['maxqty']);
+        }
+        if(isset($filters['minqty']) && $filters['minqty'] != ''){
+            $query = $query->where('quantity', '>', $filters['minqty']);
+        }
+        if(isset($filters['created_at_from']) && $filters['created_at_from'] != ''){
+            $query = $query->where('products.created_at', '>=', $filters['created_at_from']);
+        }
+        if(isset($filters['created_at_to']) && $filters['created_at_to'] != ''){
+            $query = $query->where('products.created_at', '<=', $filters['created_at_to']);
+        }
+
+        if(!$count){
+            if(isset($filters['order'])){
+                $direction = isset($filters['direction']) ? $filters['direction'] : 'desc';
+                $query = $query->orderBy($filters['order'], $direction);
+            }
+            $page = isset($filters['page']) ? request('page') - 1 : 0;
+            $limit = isset($filters['limit']) ? request('limit') : 10;
+            $query = $query->page($page, $limit);
+        }
+        
+        return $query;
+    }
+
+    public static function getLatestProducts()
     {
         return self::select([
             'products.id',
             'products.slug',
             'products.product_name',
             'products.price',
-            'products.img'
-        ])->addField(new F('count', 'order_details.product_id'), 'sale_num')
+            'products.img',
+            'products.created_at',
+        ])
+        ->addField(new F('avg', 'reviews.votes'), 'rating')->leftJoin('reviews', 'reviews.product_id', '=', 'products.id')
         ->leftJoin('order_details', 'order_details.product_id', '=', 'products.id')
         ->groupBy('products.id')
-        ->orderBy('sale_num', 'desc')
+        ->orderBy('created_at', 'desc')
         ->limit(4)
         ->get();
     }
 
-    public function getBestSellers()
+    public static function getBestSellers()
     {
         return self::select([
             'products.id',
             'products.slug',
             'products.product_name',
             'products.price',
-            'products.img'
-        ])->addField(new F('count', 'order_details.product_id'), 'sale_num')
+            'products.img',
+            'products.created_at'
+        ])    
+        ->addField(new F('count', 'order_details.product_id'), 'sale_num')
+        ->addField(new F('avg', 'reviews.votes'), 'rating')
+        ->leftJoin('reviews', 'reviews.product_id', '=', 'products.id')
         ->leftJoin('order_details', 'order_details.product_id', '=', 'products.id')
         ->groupBy('products.id')
         ->orderBy('sale_num', 'desc')
-        ->limit(4)
+        ->limit(8)
         ->get();
     }
 
+    public static function getTopRateds()
+    {
+        return self::select([
+            'products.id',
+            'products.slug',
+            'products.product_name',
+            'products.price',
+            'products.img',
+            'products.created_at'
+        ])
+        ->addField(new F('avg', 'reviews.votes'), 'rating')
+        ->leftJoin('reviews', 'reviews.product_id', '=', 'products.id')
+        ->leftJoin('order_details', 'order_details.product_id', '=', 'products.id')
+        ->groupBy('products.id')
+        ->orderBy('rating', 'desc')
+        ->limit(4)
+        ->get();   
+    }
 }

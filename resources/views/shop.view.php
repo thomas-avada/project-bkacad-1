@@ -3,7 +3,7 @@
 
 <head>
     <?php include 'partials/meta.view.php'; ?>
-    <title>E-SHOP HTML Template</title>
+    <title>Shop | Spect Store</title>
     <?php include 'partials/css.view.php'; ?>
 </head>
 
@@ -45,13 +45,6 @@
     <!-- /section -->
 </main>
 <!-- /Main content -->
-<?php if (session()->isLoggedIn()){
-    echo "<pre>";
-    print_r(session()->all());
-    echo "</pre>";
-} 
-?>
-
 <!-- FOOTER -->
 <?php include 'partials/footer.view.php'; ?>
 <!-- /FOOTER -->

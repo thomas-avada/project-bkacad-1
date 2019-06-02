@@ -10,6 +10,7 @@ class Session {
 
     const ADMIN_ROLE = 1;
     const NORMAL_ROLE = 2;
+    const SUPER_ROLE = 3;
 
     /**
      * Get all session items
@@ -97,7 +98,7 @@ class Session {
 
     public function isAdmin()
     {
-        return $this->getRole() == self::ADMIN_ROLE ? true :false;
+        return $this->getRole() == self::ADMIN_ROLE || $this->getRole() == self::SUPER_ROLE ? true :false;
     }
 
     public function getRole()

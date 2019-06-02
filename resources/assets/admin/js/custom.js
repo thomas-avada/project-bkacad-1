@@ -2529,13 +2529,6 @@ if (typeof NProgress != 'undefined') {
 				  };
 				}();
 
-				$('#datatable').dataTable();
-
-				$('#datatable-keytable').DataTable({
-				  keys: true
-				});
-
-				$('#datatable-responsive').DataTable();
 
 				$('#datatable-scroller').DataTable({
 				  ajax: "js/datatables/json/scroller-demo.json",

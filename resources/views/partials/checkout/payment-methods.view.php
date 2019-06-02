@@ -8,7 +8,8 @@
 				id="<?=$method['payment_method_code']?>" 
 				<?=$selected_payment == $method['payment_method_code']? 'checked' :  ''?> 
 				value="<?=$method['id']?>"
-				data-code="<?=$method['payment_method_code']?>" 
+				data-code="<?=$method['payment_method_code']?>"
+				required 
 			>
 			<label for="payments-1"><?=$method['display_name']?></label>
 			<div class="caption">

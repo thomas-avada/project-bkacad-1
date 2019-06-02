@@ -33,7 +33,8 @@
 					<div id="store">
 						<!--row-->
 						<?php if($count): ?>
-						<p><?=$count?> products found</p>
+						<h3><strong><?=$count?> products found for "<?=$keyword?>"</strong></h3>
+						<?php component('pagination', compact('pagination', 'page'));?>
 						<?php endif ?>
 						<p></p>
 						<!--/row-->

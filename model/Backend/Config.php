@@ -9,7 +9,7 @@ class Config extends Model
 
     protected $_cache = [];
 
-    public function getCurrencyConfig()
+    public static function getCurrencyConfig()
     {
     	$rows = self::select()->where('path', 'like', "%/config/currency/%")->get();
     	$configData = [];

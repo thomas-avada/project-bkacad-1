@@ -5,9 +5,6 @@ use App\Core\Database\Facade\Model;
 
 class OrderDetail extends Model
 {
-    use \App\Model\QueryTrait\Filterable;
-    
-	protected static $tablename = 'order_details';
 
-	
+	protected static $tablename = 'order_details';
 }

@@ -7,6 +7,8 @@
 	"require": {
 		"clancats/hydrahon": "^1.1",
 		"tamtamchik/simple-flash": "^1.2",
-		"ausi/slug-generator": "^1.1"
+		"ausi/slug-generator": "^1.1",
+		"nesbot/carbon": "^2.10",
+		"rakit/validation": "^1.1"
 	}
 }

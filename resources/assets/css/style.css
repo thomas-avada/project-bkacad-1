@@ -148,6 +148,12 @@ hr {
   box-shadow: 0px 0px 0px 1px #e2d48d inset, 0px 0px 0px 0px #e2d48d;
 }
 
+.main-btn.active{
+  color: #e2d48d;
+  -webkit-box-shadow: 0px 0px 0px 1px #e2d48d inset, 0px 0px 0px 0px #e2d48d;
+  box-shadow: 0px 0px 0px 1px #e2d48d inset, 0px 0px 0px 0px #e2d48d;
+}
+
 .primary-btn {
   color: #FFF;
   background-color: #e2d48d;
@@ -364,7 +370,7 @@ textarea.input {
 }
 
 .header-search>form .search-input {
-  padding-left: 150px;
+/*  padding-left: 150px;*/
   padding-right: 45px;
 }
 
@@ -609,6 +615,7 @@ textarea.input {
   -webkit-transform: translateX(-50%) translateY(15px);
   -ms-transform: translateX(-50%) translateY(15px);
   transform: translateX(-50%) translateY(15px);
+  z-index: 1000;
 }
 
 .dropdown.default-dropdown.open>.custom-menu {
@@ -1001,6 +1008,11 @@ textarea.input {
   -webkit-transition: 0.3s all;
   transition: 0.3s all;
 }
+@media (max-width: 1024px){
+  .product.product-single .product-btns {
+    display: flex;
+  }
+} 
 
 .product.product-single:hover .product-btns {
   opacity: 1;
@@ -1741,10 +1753,34 @@ textarea.input {
   [class*='col-xs'] {
     width: 100%;
   }
+  .header-search{
+    width: 100%;
+  }
+  .order-summary.clearfix {
+        overflow-x: scroll;
+    }
+    .shopping-cart-table>tbody * {
+        font-size: 12px !important;
+    }
+    .shopping-cart-table>tbody .input{
+        width: 40px !important;
+        padding: 0px 10px;
+    }
+    .shopping-cart-table>tbody>tr>.price{
+        padding: 0px 5px;
+    }
+    .shopping-cart-table>tfoot>tr>th.empty{
+       width: 100%;
+    }
+    .shopping-cart-table>tfoot>tr>th.empty>a{
+        float: left;
+        width: 120px;
+        text-align: center;  
+    }
 }
 
-/*Custom css*/
 
+/*Custom css*/
 .product-img-wrapper{
   max-width: 100%;
   height: 270px;
@@ -1753,6 +1789,7 @@ textarea.input {
   justify-content: center;
 }
 .product-img-wrapper>img{
+  max-width: 100%;
   max-height: 100%;
 }
 
@@ -1783,4 +1820,9 @@ textarea.input {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+label.error{
+  color: red;
+  font-weight: 300;
 }

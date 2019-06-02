@@ -1,9 +1,13 @@
-\<div class="product product-single">
+<div class="product product-single">
     <div class="product-thumb">
-<!--         <div class="product-label">
-            <span>New</span>
-            <span class="sale">-20%</span>
-        </div> -->
+        <div class="product-label">
+            <?php
+                if(Carbon\Carbon::now()->subweek() < new DateTime($product['created_at'])){
+                    echo "<span>New</span>";
+                }
+            ?>          
+            <!-- <span class="sale">-20%</span> -->
+        </div>
         <a href="/products?s=<?=$product['slug']?>" class="product-img-wrapper">
             <img class="img-responsive" src="<?=$product['img'];?>" alt=''>
         </a>
@@ -17,8 +21,14 @@
         </div>
         <h2 class="product-name"><a href="/products?s=<?=$product['slug']?>"><?= $product['product_name'] ?></a></h2>
         <div class="product-btns">
-            <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
-            <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
+            <?php if (session()->isLoggedIn()): ?>
+            <button class="main-btn icon-btn add-wishlist-btn <?=in_array($product['id'], $wishlists) ? 'active': ''?>"
+            data-id="<?=$product['id']?>"
+            >
+                <i class="fa fa-heart"></i>
+            </button>
+<!--             <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button> -->
+            <?php endif ?>         
             <button class="primary-btn add-to-cart"
                 data-id="<?=$product['id']?>"
                 data-name="<?=$product['product_name']?>"

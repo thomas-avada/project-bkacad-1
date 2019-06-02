@@ -13,7 +13,7 @@
     </div>
     <div class="x_content">
       <br />
-      <form id="edit-brand-form" data-parsley-validate class="form-horizontal form-label-left" method="POST" enctype='multipart/form-data' action="/admin/brand/update?id=<?= $brand['id'] ;?>">
+      <form id="edit-brand-form" data-parsley-validate class="form-horizontal form-label-left" method="POST" enctype='multipart/form-data' action="/admin/brand/update">
         <input type="hidden" name="id"  value="<?= $brand['id'] ;?>">
         <div class="form-group">
           <label class="control-label col-md-3 col-sm-3 col-xs-12" for="product-name">Brand name<span class="required">*</span>
@@ -27,10 +27,10 @@
           <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
             <a class="btn btn-primary" type="button" href="<?= $back; ?>">Back</a>
             <button class="btn btn-primary" type="reset">Reset</button>
+            <a class="btn btn-primary" type="button" href="/admin/brand/delete?id=<?=$brand['id']?>">Delete</a>
             <button class="btn btn-primary"
-                onclick="event.preventDefault();
+                onclick="
                 document.getElementById('edit-brand-form').setAttribute('action', '/admin/brand/update?back=1');
-                document.getElementById('edit-brand-form').submit();
             ">
               Edit and continue
             </button>

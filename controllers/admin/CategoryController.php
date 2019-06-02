@@ -9,17 +9,19 @@ class CategoryController extends AdminController
 	{
 		$categories = Category::adminFilter(request()->all())->get();
 
-		$count = Category::adminFilter(request()->all())->count();
+		$count = Category::adminFilter(request()->all(), true)->count();
 		$pagination = [
             'last' => ceil($count / 10)
         ];
-		// dd($categories);
+		$filters = array_merge([
+            'page' => 1,
+            'direction' => 'asc',
+            'order' => 'id'
+        ], request()->all());
 		return view('admin/categories', [
 			'categories' => $categories,
-			'page' => request('page'),
 			'pagination' => $pagination,
-            'order' => request('order'),
-            'direction' => request('direction')
+            'filters' => $filters
 		]);
 	}
 
@@ -33,25 +35,42 @@ class CategoryController extends AdminController
 
 	public function store()
 	{
-		Category::insert([
+		$validation = Validator::make(request()->all(), [
+            'category_name' => 'required'
+        ]);
+        $validation->validate();
+        
+        if ($validation->fails()) {
+            flash()->error($validation->errors()->all());
+            return redirect()->back();
+        }
+
+		$category = Category::insert([
 			'category_name' => request('category_name')
 		])->execute();
 
-		if(request()->get('back')){
-			return redirect()->back();
+		if($category){
+			if(request()->get('back')){
+				flash()->success('New category created successfully');
+				return redirect()->back();
+			}
+			flash()->success('New category created successfully');
+			return redirect()->toRoute('admin/categories');
 		}
+		flash()->error('Something went wrong');
 		return redirect()->toRoute('admin/categories');
 	}
 
 	public function edit()
 	{
-		
-		// dd($product);
 		if(!request('id')){
 			return redirect()->toRoute('admin/categories');
 		}
 		$category = Category::loadForEdit(request('id'));
-
+		if(!$category){
+			flash()->error('Category does not exist');
+			return redirect()->toRoute('admin/categories');
+		}
 		$back = request()->getHttpReferer();
 		return view('admin/category-edit', compact('category', 'back'));
 	}
@@ -61,26 +80,32 @@ class CategoryController extends AdminController
 		if(!request('id')){
 			return redirect()->toRoute('admin/categories');
 		}
-
-		Category::update([
+		$updated = Category::update([
 			'category_name' => request('category_name'),
-		])
-		->where('id', request('id'))
+		])->where('id', request('id'))
 		->execute();
-
-		if(request()->get('back')){
-			return redirect()->back();
+		if($updated){
+			if(request()->get('back')){
+				flash()->success('Category updated successfully');
+				return redirect()->back();
+			}
+			flash()->success('Category updated successfully');
+			return redirect()->toRoute('admin/categories');
 		}
+		flash()->error('Something went wrong');
 		return redirect()->toRoute('admin/categories');
-
 	}
 
 	public function delete()
 	{
 		$id = request('id');
 		if($id){
-			Category::destroy($id);
-			flash()->success("The category with id: $id has been deleted");
+			$deleted = Category::destroy($id);
+			if($deleted){
+				flash()->success("The category with id: $id has been deleted");
+        		return redirect()->toRoute('admin/categories');
+			}
+			flash()->error('You cannot delete the category');
         	return redirect()->toRoute('admin/categories');
 		}
 		flash()->error('Something went wrong');

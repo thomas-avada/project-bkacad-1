@@ -55,9 +55,16 @@ class CartController
     public function massupdate()
     {
         $items = request()->all();
+        $errors = [];
         foreach ($items as $id => $qty) {
+            $product = Product::select()->find($id);
+            if($qty > $product['quantity']){
+                $errors[] = 'We don\'t have enough of '.$product['product_name']. ' as you require';
+                continue;
+            }
             Cart::update($id, $qty);
         }
+        flash()->error($errors);
         return redirect()->back();
     }
 

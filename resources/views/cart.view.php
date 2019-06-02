@@ -16,6 +16,10 @@
 	<?php include 'partials/nav.view.php';?>
 	<!-- /NAVIGATION -->
 
+	<!-- Alert box -->
+	<?php include 'partials/alert.view.php'; ?>
+	<!--/Alert box -->
+
     <?php
         use App\Core\Facade\Cart;
         if(session()->isLoggedIn()){
@@ -29,7 +33,6 @@
 			<!-- row -->
 			<div class="row">
 				<form id="cart-form" class="clearfix">
-
 					<div class="col-md-12">
 						<div class="order-summary clearfix">
 							<div class="section-title">
@@ -69,8 +72,6 @@
                             <?php else: ?>
                             <h2>Your cart is currently empty.</h2>
                             <?php endif;?>
-							
-
 						</div>
 					</div>
 				</form>

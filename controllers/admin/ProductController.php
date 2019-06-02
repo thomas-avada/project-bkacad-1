@@ -5,24 +5,26 @@ use App\Model\Product;
 use App\Model\Brand;
 use App\Model\Category;
 use Ausi\SlugGenerator\SlugGenerator;
+use App\Core\Facade\Validator;
 
 class ProductController extends AdminController
 {
 	public function index()
 	{
-//		$products = Product::getTenPerPage($page);
 		$products = Product::adminFilter(request()->all())->get();
-//		 dd($products);
-		$count = Product::select()->count();
+		$count = Product::adminFilter(request()->all(), true)->count();
 		$pagination = [
             'last' => ceil($count / 10)
         ];
+        $filters = array_merge([
+        	'page' => 1,
+        	'direction' => 'asc',
+        	'order' => 'product_id'
+        ], request()->all());
 		return view('admin/products', [
 			'products' => $products, 
-			'pagination' => $pagination, 
-			'page' => request('page'),
-            'order' => request('order'),
-            'direction' => request('direction')
+			'pagination' => $pagination,
+			'filters' => $filters
 		]);
 	}
 
@@ -40,6 +42,18 @@ class ProductController extends AdminController
 
 	public function store()
 	{
+		$validation = Validator::make(request()->all(), [
+            'product_name' => 'required',
+			'price' => 'required|numeric',
+			'quantity' => 'required|numeric'
+        ]);
+        $validation->validate();
+        
+        if ($validation->fails()) {
+            flash()->error($validation->errors()->all());
+            return redirect()->back();
+        }
+
 		$generator = new SlugGenerator;
 
 		$data = [
@@ -85,9 +99,14 @@ class ProductController extends AdminController
 			return redirect()->toRoute('admin/products');
 		}
 		// dd(request('id'));
+		$product = Product::loadForEdit(request('id'));
+		if(!$product){
+			flash()->error('Product does not exist');
+			return redirect()->toRoute('admin/products');
+		}
 		$categories = Category::select()->get();
 		$brands = Brand::select()->get();
-		$product = Product::loadForEdit(request('id'));
+		
 
 		$back = request()->getHttpReferer();
 		return view('admin/product-edit', compact('product', 'categories', 'brands', 'back'));
@@ -95,10 +114,21 @@ class ProductController extends AdminController
 
 	public function update()
 	{
-
 		if(!request('id')){
 			return redirect()->toRoute('admin/products');
 		}
+
+		$validation = Validator::make(request()->all(), [
+            'product_name' => 'required',
+			'price' => 'required|numeric',
+			'quantity' => 'required|numeric'
+        ]);
+        $validation->validate();
+        
+        if ($validation->fails()) {
+            flash()->error($validation->errors()->all());
+            return redirect()->back();
+        }
 
 		$currentProduct = Product::select()->find(request('id'));
 		$data = [
@@ -148,9 +178,13 @@ class ProductController extends AdminController
 	{
 		$id = request('id');
 		if($id){
-			Product::destroy($id);
-			flash()->success("The product with id: $id has been deleted");
-        	return redirect()->toRoute('admin/products');
+			$deleted = Product::delete()->where('id', $id)->execute();
+			if($deleted){
+				flash()->success("The product with id: $id has been deleted");
+        		return redirect()->toRoute('admin/products');
+			}
+			flash()->error('Something went wrong');
+    		return redirect()->toRoute('admin/products');
 		}
 		flash()->error('Something went wrong');
         return redirect()->toRoute('admin/products');
